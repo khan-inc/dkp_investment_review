@@ -8,7 +8,7 @@ namespace DKP.InvestmentReview.WebUI.Examples
     {
         public Task<ComponentTemplate> GetComponentTemplateAsync()
         {
-            return Task.FromResult(new ComponentTemplate
+            var ct = new ComponentTemplate
             {
                 Id = 123,
                 ComponentName = "BenchmarkReturns",
@@ -19,9 +19,10 @@ namespace DKP.InvestmentReview.WebUI.Examples
                     new Parameter { Id = 4, Name = "Frequency", Type = ParameterTypeConstants.STRING, Value = null }
                 },
                 DataSets = new Collection<DataSet> {
-                    new DataSet { Id = 1, Fields = { "BenchmarkName", "ReturnEndDate", "BenchmarkReturn" }, Name = "BenchmarkReturnDataSet" }
+                    new DataSet { Id = 1, Fields = new Collection<string> { "BenchmarkName", "ReturnEndDate", "BenchmarkReturn" }, Name = "BenchmarkReturnDataSet" }
                 }
-            });
+            };
+            return Task.FromResult(ct);
         }
     }
 }
