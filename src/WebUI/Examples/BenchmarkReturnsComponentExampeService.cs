@@ -1,4 +1,5 @@
 ﻿using DKP.InvestmentReview.Application.ComponentTemplates;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -20,9 +21,21 @@ namespace DKP.InvestmentReview.WebUI.Examples
                 },
                 DataSets = new Collection<DataSet> {
                     new DataSet { Id = 1, Fields = new Collection<string> { "BenchmarkName", "ReturnEndDate", "BenchmarkReturn" }, Name = "BenchmarkReturnDataSet" }
+                },
+                UiTemplates = new Collection<string> {
+                    @"barChartTemplate",
+                    @"pieChartTemplate",
                 }
             };
             return Task.FromResult(ct);
+        }
+
+        internal Task<string> GetComponentUiTemplateAsync(string uiTemplateName)
+        {
+            var currentDir = Environment.CurrentDirectory;
+            var html = System.IO.File.ReadAllText($@"{currentDir}\ui-templates\BenchmarkReturns\{uiTemplateName}.html");
+
+            return Task.FromResult(html);
         }
     }
 }

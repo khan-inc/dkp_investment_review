@@ -14,10 +14,18 @@ namespace DKP.InvestmentReview.WebUI.Controllers
             this.benchmarkReturnsExample = benchmarkReturnsExample;
         }
 
-        [HttpGet("benchmarkReturns")]
-        public Task<ComponentTemplate> GetBenchmarkReturnsComponent()
+        [HttpGet("template/{templateName}")]
+        public Task<ComponentTemplate> GetBenchmarkReturnsComponent(string templateName)
         {
+            //todo : for now its "Benchmarkreturns"
             return benchmarkReturnsExample.GetComponentTemplateAsync();
+        }
+
+        [HttpGet("uiTemplate/{uiTemplateName}")]
+        [Produces("text/html")]
+        public Task<string> GetComponentUiTemplate(string uiTemplateName)
+        {
+            return benchmarkReturnsExample.GetComponentUiTemplateAsync(uiTemplateName);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace DKP.InvestmentReview.Application.ComponentTemplates
         public string ComponentName { get; set; }
         public ICollection<Parameter> Parameters { get; set; }
         public ICollection<DataSet> DataSets { get; set; }
+        public ICollection<string> UiTemplates { get; set; }
     }
 }
