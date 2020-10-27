@@ -14,6 +14,72 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IComponentClient {
+    getBenchmarkReturnsComponent(): Observable<ComponentTemplate>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ComponentClient implements IComponentClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getBenchmarkReturnsComponent(): Observable<ComponentTemplate> {
+        let url_ = this.baseUrl + "/api/Component/benchmarkReturns";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBenchmarkReturnsComponent(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBenchmarkReturnsComponent(<any>response_);
+                } catch (e) {
+                    return <Observable<ComponentTemplate>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ComponentTemplate>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBenchmarkReturnsComponent(response: HttpResponseBase): Observable<ComponentTemplate> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ComponentTemplate.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ComponentTemplate>(<any>null);
+    }
+}
+
 export interface ITodoItemsClient {
     getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
     create(command: CreateTodoItemCommand): Observable<number>;
@@ -645,6 +711,174 @@ export class WeatherForecastClient implements IWeatherForecastClient {
         }
         return _observableOf<WeatherForecast[]>(<any>null);
     }
+}
+
+export class ComponentTemplate implements IComponentTemplate {
+    id?: number;
+    templateName?: string | undefined;
+    componentName?: string | undefined;
+    parameters?: Parameter[] | undefined;
+    dataSets?: DataSet[] | undefined;
+
+    constructor(data?: IComponentTemplate) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.templateName = _data["templateName"];
+            this.componentName = _data["componentName"];
+            if (Array.isArray(_data["parameters"])) {
+                this.parameters = [] as any;
+                for (let item of _data["parameters"])
+                    this.parameters!.push(Parameter.fromJS(item));
+            }
+            if (Array.isArray(_data["dataSets"])) {
+                this.dataSets = [] as any;
+                for (let item of _data["dataSets"])
+                    this.dataSets!.push(DataSet.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ComponentTemplate {
+        data = typeof data === 'object' ? data : {};
+        let result = new ComponentTemplate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["templateName"] = this.templateName;
+        data["componentName"] = this.componentName;
+        if (Array.isArray(this.parameters)) {
+            data["parameters"] = [];
+            for (let item of this.parameters)
+                data["parameters"].push(item.toJSON());
+        }
+        if (Array.isArray(this.dataSets)) {
+            data["dataSets"] = [];
+            for (let item of this.dataSets)
+                data["dataSets"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IComponentTemplate {
+    id?: number;
+    templateName?: string | undefined;
+    componentName?: string | undefined;
+    parameters?: Parameter[] | undefined;
+    dataSets?: DataSet[] | undefined;
+}
+
+export class Parameter implements IParameter {
+    id?: number;
+    name?: string | undefined;
+    type?: string | undefined;
+    value?: any | undefined;
+
+    constructor(data?: IParameter) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.type = _data["type"];
+            this.value = _data["value"];
+        }
+    }
+
+    static fromJS(data: any): Parameter {
+        data = typeof data === 'object' ? data : {};
+        let result = new Parameter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["type"] = this.type;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface IParameter {
+    id?: number;
+    name?: string | undefined;
+    type?: string | undefined;
+    value?: any | undefined;
+}
+
+export class DataSet implements IDataSet {
+    id?: number;
+    name?: string | undefined;
+    fields?: string[] | undefined;
+
+    constructor(data?: IDataSet) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["fields"])) {
+                this.fields = [] as any;
+                for (let item of _data["fields"])
+                    this.fields!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): DataSet {
+        data = typeof data === 'object' ? data : {};
+        let result = new DataSet();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        if (Array.isArray(this.fields)) {
+            data["fields"] = [];
+            for (let item of this.fields)
+                data["fields"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IDataSet {
+    id?: number;
+    name?: string | undefined;
+    fields?: string[] | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
