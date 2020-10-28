@@ -6,12 +6,24 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Component/benchmarkReturns": {
+    "/api/Component/template/{templateName}": {
       "get": {
         "tags": [
           "Component"
         ],
         "operationId": "Component_GetBenchmarkReturnsComponent",
+        "parameters": [
+          {
+            "name": "templateName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -19,6 +31,38 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComponentTemplate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Component/uiTemplate/{uiTemplateName}": {
+      "get": {
+        "tags": [
+          "Component"
+        ],
+        "operationId": "Component_GetComponentUiTemplate",
+        "parameters": [
+          {
+            "name": "uiTemplateName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -488,6 +532,13 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/DataSet"
+            }
+          },
+          "uiTemplates": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
             }
           }
         }

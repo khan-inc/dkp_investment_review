@@ -22,7 +22,6 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         }
 
         [HttpGet("uiTemplate/{uiTemplateName}")]
-        [Produces("text/html")]
         public Task<string> GetComponentUiTemplate(string uiTemplateName)
         {
             return benchmarkReturnsExample.GetComponentUiTemplateAsync(uiTemplateName);

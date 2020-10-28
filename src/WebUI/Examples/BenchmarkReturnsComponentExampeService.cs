@@ -20,17 +20,20 @@ namespace DKP.InvestmentReview.WebUI.Examples
                     new Parameter { Id = 4, Name = "Frequency", Type = ParameterTypeConstants.STRING, Value = null }
                 },
                 DataSets = new Collection<DataSet> {
-                    new DataSet { Id = 1, Fields = new Collection<string> { "BenchmarkName", "ReturnEndDate", "BenchmarkReturn" }, Name = "BenchmarkReturnDataSet" }
+                    new DataSet { 
+                        Id = 1, 
+                        Fields = new Collection<string> { "BenchmarkName", "ReturnEndDate", "BenchmarkReturn" }, 
+                        Name = "BenchmarkReturnDataSet" }
                 },
                 UiTemplates = new Collection<string> {
-                    @"barChartTemplate",
-                    @"pieChartTemplate",
+                    "barChartTemplate",
+                    "pieChartTemplate"
                 }
             };
             return Task.FromResult(ct);
         }
 
-        internal Task<string> GetComponentUiTemplateAsync(string uiTemplateName)
+        public Task<string> GetComponentUiTemplateAsync(string uiTemplateName)
         {
             var currentDir = Environment.CurrentDirectory;
             var html = System.IO.File.ReadAllText($@"{currentDir}\ui-templates\BenchmarkReturns\{uiTemplateName}.html");
@@ -38,4 +41,5 @@ namespace DKP.InvestmentReview.WebUI.Examples
             return Task.FromResult(html);
         }
     }
+
 }

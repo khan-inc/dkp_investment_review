@@ -15,7 +15,8 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IComponentClient {
-    getBenchmarkReturnsComponent(): Observable<ComponentTemplate>;
+    getBenchmarkReturnsComponent(templateName: string | null): Observable<ComponentTemplate>;
+    getComponentUiTemplate(uiTemplateName: string | null): Observable<string>;
 }
 
 @Injectable({
@@ -31,8 +32,11 @@ export class ComponentClient implements IComponentClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getBenchmarkReturnsComponent(): Observable<ComponentTemplate> {
-        let url_ = this.baseUrl + "/api/Component/benchmarkReturns";
+    getBenchmarkReturnsComponent(templateName: string | null): Observable<ComponentTemplate> {
+        let url_ = this.baseUrl + "/api/Component/template/{templateName}";
+        if (templateName === undefined || templateName === null)
+            throw new Error("The parameter 'templateName' must be defined.");
+        url_ = url_.replace("{templateName}", encodeURIComponent("" + templateName));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -77,6 +81,57 @@ export class ComponentClient implements IComponentClient {
             }));
         }
         return _observableOf<ComponentTemplate>(<any>null);
+    }
+
+    getComponentUiTemplate(uiTemplateName: string | null): Observable<string> {
+        let url_ = this.baseUrl + "/api/Component/uiTemplate/{uiTemplateName}";
+        if (uiTemplateName === undefined || uiTemplateName === null)
+            throw new Error("The parameter 'uiTemplateName' must be defined.");
+        url_ = url_.replace("{uiTemplateName}", encodeURIComponent("" + uiTemplateName));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetComponentUiTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetComponentUiTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetComponentUiTemplate(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
     }
 }
 
@@ -719,6 +774,7 @@ export class ComponentTemplate implements IComponentTemplate {
     componentName?: string | undefined;
     parameters?: Parameter[] | undefined;
     dataSets?: DataSet[] | undefined;
+    uiTemplates?: string[] | undefined;
 
     constructor(data?: IComponentTemplate) {
         if (data) {
@@ -743,6 +799,11 @@ export class ComponentTemplate implements IComponentTemplate {
                 this.dataSets = [] as any;
                 for (let item of _data["dataSets"])
                     this.dataSets!.push(DataSet.fromJS(item));
+            }
+            if (Array.isArray(_data["uiTemplates"])) {
+                this.uiTemplates = [] as any;
+                for (let item of _data["uiTemplates"])
+                    this.uiTemplates!.push(item);
             }
         }
     }
@@ -769,6 +830,11 @@ export class ComponentTemplate implements IComponentTemplate {
             for (let item of this.dataSets)
                 data["dataSets"].push(item.toJSON());
         }
+        if (Array.isArray(this.uiTemplates)) {
+            data["uiTemplates"] = [];
+            for (let item of this.uiTemplates)
+                data["uiTemplates"].push(item);
+        }
         return data; 
     }
 }
@@ -779,6 +845,7 @@ export interface IComponentTemplate {
     componentName?: string | undefined;
     parameters?: Parameter[] | undefined;
     dataSets?: DataSet[] | undefined;
+    uiTemplates?: string[] | undefined;
 }
 
 export class Parameter implements IParameter {
