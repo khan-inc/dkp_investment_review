@@ -38,13 +38,23 @@
         }
       }
     },
-    "/api/Component/uiTemplate/{uiTemplateName}": {
+    "/api/Component/template/uiTemplate/{templateName}/{uiTemplateName}": {
       "get": {
         "tags": [
           "Component"
         ],
         "operationId": "Component_GetComponentUiTemplate",
         "parameters": [
+          {
+            "name": "templateName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
           {
             "name": "uiTemplateName",
             "in": "path",
@@ -53,7 +63,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 1
+            "x-position": 2
           }
         ],
         "responses": {

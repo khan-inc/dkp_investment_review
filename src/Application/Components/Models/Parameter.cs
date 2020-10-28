@@ -1,4 +1,4 @@
-﻿namespace DKP.InvestmentReview.Application.ComponentTemplates
+﻿namespace DKP.InvestmentReview.Application.Components.Models
 {
     public class Parameter
     {

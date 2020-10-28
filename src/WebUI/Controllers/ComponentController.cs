@@ -1,5 +1,6 @@
-﻿using DKP.InvestmentReview.Application.ComponentTemplates;
-using DKP.InvestmentReview.WebUI.Examples;
+﻿
+using DKP.InvestmentReview.Application.Components.Queries;
+using DKP.InvestmentReview.Application.Components.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,24 +8,17 @@ namespace DKP.InvestmentReview.WebUI.Controllers
 {
     public class ComponentController : ApiController
     {
-        private readonly BenchmarkReturnsComponentExampeService benchmarkReturnsExample;
-
-        public ComponentController(BenchmarkReturnsComponentExampeService benchmarkReturnsExample)
-        {
-            this.benchmarkReturnsExample = benchmarkReturnsExample;
-        }
 
         [HttpGet("template/{templateName}")]
         public Task<ComponentTemplate> GetBenchmarkReturnsComponent(string templateName)
         {
-            //todo : for now its "Benchmarkreturns"
-            return benchmarkReturnsExample.GetComponentTemplateAsync();
+            return Mediator.Send(new GetComponentQuery(templateName));
         }
 
-        [HttpGet("uiTemplate/{uiTemplateName}")]
-        public Task<string> GetComponentUiTemplate(string uiTemplateName)
+        [HttpGet("template/uiTemplate/{templateName}/{uiTemplateName}")]
+        public Task<string> GetComponentUiTemplate(string templateName, string uiTemplateName)
         {
-            return benchmarkReturnsExample.GetComponentUiTemplateAsync(uiTemplateName);
+            return Mediator.Send(new GetComponentUiQuery(templateName, uiTemplateName));
         }
     }
 }
