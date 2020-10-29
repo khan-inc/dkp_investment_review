@@ -14,3 +14,56 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+#tblCommon {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+  #tblCommon td, #tblCommon th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #tblCommon tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #tblCommon tr:hover {
+    background-color: #ddd;
+  }
+
+  #tblCommon th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: left;
+    background-color: #c3c0c0;
+    color: white;
+  }
+
+#myDIVTemplate {
+  height: 550px;
+  width: 750px;
+  padding: 10px;
+  margin: 15px;
+  border: 2px ridge ;
+  background-color:#fff;
+}
+
+#myDIVAttr {
+  height: 570px;
+  width: 400px;
+  padding: 10px;  
+  border: 2px ridge;
+  background-color: #f2f2f2;
+}
+
+#myDIVTemplate1 {
+  height: 550px;
+  width: 1000px;
+  padding: 10px;
+  margin: 15px;
+  border: 2px ridge;
+  background-color: #ccc8c8;
+}
