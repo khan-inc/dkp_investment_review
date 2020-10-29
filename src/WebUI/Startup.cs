@@ -1,8 +1,9 @@
 using DKP.InvestmentReview.Application;
 using DKP.InvestmentReview.Application.Common.Interfaces;
+using DKP.InvestmentReview.Application.Components;
+using DKP.InvestmentReview.Application.DataRetrival;
 using DKP.InvestmentReview.Infrastructure;
 using DKP.InvestmentReview.Infrastructure.Persistence;
-using DKP.InvestmentReview.WebUI.Examples;
 using DKP.InvestmentReview.WebUI.Filters;
 using DKP.InvestmentReview.WebUI.Services;
 using FluentValidation.AspNetCore;
@@ -36,7 +37,8 @@ namespace DKP.InvestmentReview.WebUI
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-            services.AddExamples();
+            services.AddComponentService();
+            services.AddDataRetrievalService();
 
             services.AddHttpContextAccessor();
 

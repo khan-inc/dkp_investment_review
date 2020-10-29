@@ -16,7 +16,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IComponentClient {
     getBenchmarkReturnsComponent(templateName: string | null): Observable<ComponentTemplate>;
-    getComponentUiTemplate(uiTemplateName: string | null): Observable<string>;
+    getComponentUiTemplate(templateName: string | null, uiTemplateName: string | null): Observable<string>;
 }
 
 @Injectable({
@@ -83,8 +83,11 @@ export class ComponentClient implements IComponentClient {
         return _observableOf<ComponentTemplate>(<any>null);
     }
 
-    getComponentUiTemplate(uiTemplateName: string | null): Observable<string> {
-        let url_ = this.baseUrl + "/api/Component/uiTemplate/{uiTemplateName}";
+    getComponentUiTemplate(templateName: string | null, uiTemplateName: string | null): Observable<string> {
+        let url_ = this.baseUrl + "/api/Component/template/uiTemplate/{templateName}/{uiTemplateName}";
+        if (templateName === undefined || templateName === null)
+            throw new Error("The parameter 'templateName' must be defined.");
+        url_ = url_.replace("{templateName}", encodeURIComponent("" + templateName));
         if (uiTemplateName === undefined || uiTemplateName === null)
             throw new Error("The parameter 'uiTemplateName' must be defined.");
         url_ = url_.replace("{uiTemplateName}", encodeURIComponent("" + uiTemplateName));
