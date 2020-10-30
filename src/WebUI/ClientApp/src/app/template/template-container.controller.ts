@@ -1,52 +1,117 @@
-import { Component, ViewChild, ElementRef, Sanitizer, SecurityContext } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef ,Sanitizer, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import * as Mustache from 'mustache';
 
 @Component({
   selector: 'app-template-container',
   templateUrl: './template-container.controller.html'
 })
 export class AppTemplateComponent {
-  public accountName: string = 'Test1';
-  public startDate: string = 'Test2';
-  public endDate: string;
-  public templateBind: string;
-  private code: number;  
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  public temId: string;
+  public acName: string;
+  public stDate: string;
+  public enDate: string;
+  public templateBind: string; 
+  //@ViewChild('dataContainer') dataContainer: ElementRef;
+       
+  public testhtml: string;
 
-  constructor(private route: ActivatedRoute,
-    private elementRef: ElementRef, private sanitizer: DomSanitizer) {
-  }
+  constructor(private route: ActivatedRoute, private changeDetector: ChangeDetectorRef,
+    private elementRef: ElementRef, private sanitizer: DomSanitizer) {    
+  }  
   
   ngOnInit() {
     this.route
       .queryParams
       .subscribe(params => {
-        this.code = params['id']
-      });    
+        this.temId = params['id']
+      });
+    //if (this.temId === "1") {
+    //  this.acName = "ABC";
+    //  this.stDate = "05/10/2020";
+    //  this.enDate = "09/11/2020";
+    //}
+    //else if (this.temId === "2") {
+    //  this.acName = "PQR";
+    //  this.stDate = "06/10/2020";
+    //  this.enDate = "12/11/2020";
+    //}
+    //this.renderHtmlData();    
   }
 
-  ngAfterViewChecked() {
-    this.accountName = "Data1";
-    this.startDate = "Data2";
+  renderHello() {
+    var template = document.getElementById('template').innerHTML;
+    var rendered = Mustache.render(template, { name: 'Luke' });
+    document.getElementById('target').innerHTML = rendered;
+  }
+
+  renderHtmlData() {
+    //this.templateBind = `<div>Hello
+    //    <div #myDiv>Some text</div>
+    //    </div>`;   
+
+    this.templateBind = this.bindHtmlContent();
+    //this.dataContainer.nativeElement.innerHTML = this.templateBind;
+
+    //this.templateBind = `<div>Hello
+    //    <div #myDiv>Some text</div>
+    //    </div>`;   
+       
+  }
+
+  ngDoCheck() {
+    //this.changeDetector.markForCheck();
+    //this.changeDetector.detach();
+    //setInterval(() => {
+    //  this.changeDetector.detectChanges();
+    //}, 5000);
+  }
+
+  onClickMe() {
+    //this.chkData = "Y";
+  }
+
+  myFunction() {
+    //this.changeDetector.markForCheck(); // Trigger change detection
+   //document.getElementById("demo").innerHTML = "Hello World";
+    //document.getElementById("mydiv").innerHTML = "Hello";
+    //this.demo.nativeElement.innerHTML = "Angular binding data";   
+  }
+
+  ngAfterViewChecked() {    
+    //this.startDate = "Date test";    
+    //console.log(this.demo.nativeElement.innerHTML);
+    //console.log(this.dataContainer.nativeElement.innerHTML);
   }
 
   ngAfterViewInit() {
-    let bar = 'BenchMark';
-    this.templateBind = this.bindHtmlContent();
-    console.log(this.bindHtmlContent());
-    
-    this.dataContainer.nativeElement.innerHTML = this.templateBind;   
+    //this.renderHtmlData();
+
+    //this.changeDetector.markForCheck();
+    //console.log(this.mydiv.nativeElement.innerHTML);
+    //this.mydiv.nativeElement.innerHTML = "Angular success";
+    //this.mydiv.nativeElement.innerHTML = "Angular success";
+    //console.log(this.demo.nativeElement.innerHTML);
+
+    //this.demo.nativeElement.innerHTML = "Angular binding data";
+    //this.mydiv.nativeElement.innerHTML = "Angular success";
+    //this.renderHtmlData();
+    //this.accountName = "Account test";
+    //this.bindHtmlContent();
+    //console.log(this.bindHtmlContent());
+
+
+    //this.dataContainer.nativeElement.innerHTML = this.templateBind;   
     //this.sanitizer.sanitize(SecurityContext.HTML, this.templateBind);
 
-    //this.sanitizer.bypassSecurityTrustHtml(this.templateBind);
-    //this.templateBind;    
+    //this.sanitizer.bypassSecurityTrustHtml(this.templateBind);    
   }
 
   private bindHtmlContent(): string {
     let strContent;
-    console.log(this.code);
-    if (this.code != undefined && this.code.toString() === "1") {      
+    //console.log(this.code);
+    if (this.temId != undefined && this.temId.toString() === "1") {      
       strContent = `<div id="benchmarkReturnsSlideComponent" class="slideContainer">
         <section class="slideHeader">
           <h1 [innerHtml]="accountName"></h1>
@@ -99,7 +164,7 @@ export class AppTemplateComponent {
         }
       </style>`
     }
-    if (this.code != undefined && this.code.toString() === "2") {
+    if (this.temId != undefined && this.temId.toString() === "2") {
       strContent = `<div id="benchmarkReturnsSlideComponent" class="slideContainer">
         <section class="slideHeader">
           <h2>{{AccountName}}</h2>

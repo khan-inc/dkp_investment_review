@@ -17,6 +17,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppTemplateComponent } from './template/template-container.controller';
 import { AppTemplateActionComponent  } from './template-action/template-action.component';
+import { AppTemplateViewComponent } from './template-view/template-view.component';
+import { ChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './template-view/bar-chart.component';
+import { PieChartComponent } from './template-view/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { AppTemplateActionComponent  } from './template-action/template-action.c
     FetchDataComponent,
     TodoComponent,
     AppTemplateComponent,
-    AppTemplateActionComponent
+    AppTemplateActionComponent,
+    AppTemplateViewComponent,
+    BarChartComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,6 +42,7 @@ import { AppTemplateActionComponent  } from './template-action/template-action.c
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
+    ChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -42,7 +50,7 @@ import { AppTemplateActionComponent  } from './template-action/template-action.c
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
       { path: 'apptemplate', component: AppTemplateComponent }
     ]),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule,    
     ModalModule.forRoot()
   ],
   providers: [

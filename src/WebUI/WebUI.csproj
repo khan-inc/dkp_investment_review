@@ -50,7 +50,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\model\action.model.ts" />
+    <None Remove="ClientApp\src\app\service\template.observable.service.ts" />
     <None Remove="ClientApp\src\app\template-action\template-action.component.ts" />
+    <None Remove="ClientApp\src\app\template-view\bar-chart.component.ts" />
+    <None Remove="ClientApp\src\app\template-view\pie-chart.component.ts" />
+    <None Remove="ClientApp\src\app\template-view\template-view.component.ts" />
     <None Remove="ClientApp\src\app\template\template-container.controller.ts" />
   </ItemGroup>
 
