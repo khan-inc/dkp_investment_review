@@ -17,7 +17,7 @@ export class HomeComponent {
       dealName: "Celanese",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
+      dealSize: "37000",
       dealType: "M&A",
       commitmentDate: "04/08/2020",
       launchDate: "06/10/2020"
@@ -26,79 +26,79 @@ export class HomeComponent {
       dealName: "Amcor",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
+      dealSize: "96000",
       dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      commitmentDate: "05/09/2020",
+      launchDate: "21/10/2020"
     },
     {
       dealName: "Dupont",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
-      dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      dealSize: "45000",
+      dealType: "A&C",
+      commitmentDate: "14/04/2020",
+      launchDate: "03/10/2020"
     },
     {
       dealName: "Graphic Packaging",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
-      dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      dealSize: "56000",
+      dealType: "BAC",
+      commitmentDate: "15/03/2020",
+      launchDate: "07/09/2020"
     },
     {
       dealName: "LyondellBasell",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
-      dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      dealSize: "12000",
+      dealType: "A&T",
+      commitmentDate: "12/03/2020",
+      launchDate: "17/10/2020"
     }, {
       dealName: "Broke dealer",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
-      dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      dealSize: "87000",
+      dealType: "G&A",
+      commitmentDate: "13/05/2020",
+      launchDate: "07/09/2020"
     }, {
       dealName: "Graphic packaging",
       status: "Greenlight",
       reason: "NA",
-      dealSize: "35000",
-      dealType: "M&A",
-      commitmentDate: "04/08/2020",
-      launchDate: "06/10/2020"
+      dealSize: "23000",
+      dealType: "T&A",
+      commitmentDate: "18/05/2020",
+      launchDate: "14/09/2020"
       },
       {
         dealName: "Graphic packaging",
         status: "Greenlight",
         reason: "NA",
-        dealSize: "35000",
-        dealType: "M&A",
-        commitmentDate: "04/08/2020",
-        launchDate: "06/10/2020"
+        dealSize: "65000",
+        dealType: "P&O",
+        commitmentDate: "18/08/2020",
+        launchDate: "19/10/2020"
       }
       , {
-        dealName: "Graphic packaging",
+        dealName: "Broke dealer",
         status: "Greenlight",
         reason: "NA",
-        dealSize: "35000",
+        dealSize: "90000",
         dealType: "M&A",
-        commitmentDate: "04/08/2020",
-        launchDate: "06/10/2020"
+        commitmentDate: "19/08/2020",
+        launchDate: "20/10/2020"
       }, {
-        dealName: "Graphic packaging",
+        dealName: "LyondellBasell",
         status: "Greenlight",
         reason: "NA",
-        dealSize: "35000",
-        dealType: "M&A",
-        commitmentDate: "04/08/2020",
-        launchDate: "06/10/2020"
+        dealSize: "76000",
+        dealType: "C&A",
+        commitmentDate: "10/08/2020",
+        launchDate: "15/10/2020"
       }]
   }
 
