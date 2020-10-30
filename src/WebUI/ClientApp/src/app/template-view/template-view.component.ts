@@ -1,9 +1,6 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input,Pipe } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
 import { ActionService } from '../service/template.observable.service';
 import { Subscription } from 'rxjs';
-import { ActionModel } from '../model/action.model';
 
 @Component({
   selector: 'app-template-view-container',
@@ -59,23 +56,8 @@ export class AppTemplateViewComponent {
     this.subscription.unsubscribe();
   }
 
-  //ngOnChanges() {    
-  //  if (this.temId != undefined && this.temId === "1") {
-  //    this.templateName = "Benchmark returns";
-  //    this.accountName = this.acName;
-  //    this.startDate = this.stDate;
-  //    this.endDate = this.enDate;
-  //  }
-  //  else if (this.temId != undefined && this.temId === "2") {
-  //    this.templateName = "Risk Analysis";
-  //    this.accountName = this.acName;
-  //    this.startDate = this.stDate;
-  //    this.endDate = this.enDate;
-  //  }
-  //}
-
   ngDoCheck() {
-    //this.changeDetector.markForCheck();
+
   }
 
   renderHtmlData() {
@@ -194,16 +176,6 @@ export class AppTemplateViewComponent {
     return strContent;
   }
 
-  //ngDoCheck() {
-  //  this.changeDetector.markForCheck();    
-  //  //this.changeDetector.detach();
-  //  //setInterval(() => {
-  //  //  this.changeDetector.detectChanges();
-  //  //}, 5000);
-  //}
-
   onClickMe() {
-    //this.changeDetector.markForCheck();
-    //alert("Ok");
   }
 }

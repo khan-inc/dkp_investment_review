@@ -27,17 +27,6 @@ export class AppTemplateComponent {
       .subscribe(params => {
         this.temId = params['id']
       });
-    //if (this.temId === "1") {
-    //  this.acName = "ABC";
-    //  this.stDate = "05/10/2020";
-    //  this.enDate = "09/11/2020";
-    //}
-    //else if (this.temId === "2") {
-    //  this.acName = "PQR";
-    //  this.stDate = "06/10/2020";
-    //  this.enDate = "12/11/2020";
-    //}
-    //this.renderHtmlData();    
   }
 
   renderHello() {
@@ -47,70 +36,27 @@ export class AppTemplateComponent {
   }
 
   renderHtmlData() {
-    //this.templateBind = `<div>Hello
-    //    <div #myDiv>Some text</div>
-    //    </div>`;   
-
     this.templateBind = this.bindHtmlContent();
-    //this.dataContainer.nativeElement.innerHTML = this.templateBind;
-
-    //this.templateBind = `<div>Hello
-    //    <div #myDiv>Some text</div>
-    //    </div>`;   
-       
   }
 
   ngDoCheck() {
-    //this.changeDetector.markForCheck();
-    //this.changeDetector.detach();
-    //setInterval(() => {
-    //  this.changeDetector.detectChanges();
-    //}, 5000);
   }
 
   onClickMe() {
-    //this.chkData = "Y";
   }
 
   myFunction() {
-    //this.changeDetector.markForCheck(); // Trigger change detection
-   //document.getElementById("demo").innerHTML = "Hello World";
-    //document.getElementById("mydiv").innerHTML = "Hello";
-    //this.demo.nativeElement.innerHTML = "Angular binding data";   
   }
 
   ngAfterViewChecked() {    
-    //this.startDate = "Date test";    
-    //console.log(this.demo.nativeElement.innerHTML);
-    //console.log(this.dataContainer.nativeElement.innerHTML);
   }
 
   ngAfterViewInit() {
-    //this.renderHtmlData();
-
-    //this.changeDetector.markForCheck();
-    //console.log(this.mydiv.nativeElement.innerHTML);
-    //this.mydiv.nativeElement.innerHTML = "Angular success";
-    //this.mydiv.nativeElement.innerHTML = "Angular success";
-    //console.log(this.demo.nativeElement.innerHTML);
-
-    //this.demo.nativeElement.innerHTML = "Angular binding data";
-    //this.mydiv.nativeElement.innerHTML = "Angular success";
-    //this.renderHtmlData();
-    //this.accountName = "Account test";
-    //this.bindHtmlContent();
-    //console.log(this.bindHtmlContent());
-
-
-    //this.dataContainer.nativeElement.innerHTML = this.templateBind;   
-    //this.sanitizer.sanitize(SecurityContext.HTML, this.templateBind);
-
-    //this.sanitizer.bypassSecurityTrustHtml(this.templateBind);    
   }
 
   private bindHtmlContent(): string {
     let strContent;
-    //console.log(this.code);
+
     if (this.temId != undefined && this.temId.toString() === "1") {      
       strContent = `<div id="benchmarkReturnsSlideComponent" class="slideContainer">
         <section class="slideHeader">
