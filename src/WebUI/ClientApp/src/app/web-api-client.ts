@@ -15,7 +15,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IComponentClient {
-    getBenchmarkReturnsComponent(templateName: string | null): Observable<ComponentTemplate>;
+    getComponent(templateName: string | null): Observable<ComponentTemplate>;
     getComponentUiTemplate(templateName: string | null, uiTemplateName: string | null): Observable<string>;
 }
 
@@ -32,7 +32,7 @@ export class ComponentClient implements IComponentClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getBenchmarkReturnsComponent(templateName: string | null): Observable<ComponentTemplate> {
+    getComponent(templateName: string | null): Observable<ComponentTemplate> {
         let url_ = this.baseUrl + "/api/Component/template/{templateName}";
         if (templateName === undefined || templateName === null)
             throw new Error("The parameter 'templateName' must be defined.");
@@ -48,11 +48,11 @@ export class ComponentClient implements IComponentClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetBenchmarkReturnsComponent(response_);
+            return this.processGetComponent(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetBenchmarkReturnsComponent(<any>response_);
+                    return this.processGetComponent(<any>response_);
                 } catch (e) {
                     return <Observable<ComponentTemplate>><any>_observableThrow(e);
                 }
@@ -61,7 +61,7 @@ export class ComponentClient implements IComponentClient {
         }));
     }
 
-    protected processGetBenchmarkReturnsComponent(response: HttpResponseBase): Observable<ComponentTemplate> {
+    protected processGetComponent(response: HttpResponseBase): Observable<ComponentTemplate> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

@@ -7,9 +7,9 @@ namespace DKP.InvestmentReview.Application.Components
     {
         public static IServiceCollection AddComponentService(this IServiceCollection services)
         {
-            services.AddTransient<BenchmarkReturnsComponentExampeService>();
+            services.AddTransient<BenchmarkReturnsComponentExampleService>();
             services.AddTransient<ComponentServiceFactory>();
-            services.AddTransient<IComponentService, BenchmarkReturnsComponentExampeService>();
+            services.AddTransient<IComponentService, BenchmarkReturnsComponentExampleService>();
 
             return services;
         }

@@ -10,7 +10,7 @@ namespace DKP.InvestmentReview.WebUI.Controllers
     {
 
         [HttpGet("template/{templateName}")]
-        public Task<ComponentTemplate> GetBenchmarkReturnsComponent(string templateName)
+        public Task<ComponentTemplate> GetComponent(string templateName)
         {
             return Mediator.Send(new GetComponentQuery(templateName));
         }
