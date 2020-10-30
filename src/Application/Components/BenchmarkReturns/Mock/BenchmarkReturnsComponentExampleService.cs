@@ -1,13 +1,14 @@
 ﻿using DKP.InvestmentReview.Application.Components.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DKP.InvestmentReview.Application.Components.Mock
 {
 
-    public class BenchmarkReturnsComponentExampeService : IComponentService
+    public class BenchmarkReturnsComponentExampleService : IComponentService
     {
         public string ServiceName => "BenchmarkReturns";
 
@@ -39,12 +40,13 @@ namespace DKP.InvestmentReview.Application.Components.Mock
 
         public Task<string> GetComponentUiTemplateAsync(string uiTemplateName, CancellationToken cancellationToken)
         {
-            var currentDir = Environment.CurrentDirectory;
-            var html = System.IO.File.ReadAllText($@"{currentDir}\ui-templates\BenchmarkReturns\{uiTemplateName}.html");
+            var uiTemplatePath = $@"{Environment.CurrentDirectory}\ui-templates\BenchmarkReturns\{uiTemplateName}.html";
 
+            if (!File.Exists(uiTemplatePath))
+                throw new InvalidOperationException($"Unknown ui template \"{uiTemplateName}\"");
+
+            var html = File.ReadAllText(uiTemplatePath);
             return Task.FromResult(html);
         }
-
     }
-
 }
