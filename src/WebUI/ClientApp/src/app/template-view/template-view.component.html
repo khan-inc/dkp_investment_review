@@ -1,0 +1,72 @@
+<div id="slideComponent" class="slideContainer">
+  <section class="slideHeader">    
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <tr>
+            <th>Header Name</th>
+            <th>Account Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Frequency</th>
+          </tr>
+          <tr>
+            <td>{{templateName | uppercase}}</td>
+            <td>{{accountName | uppercase}}</td>
+            <td>{{startDate | date:'mediumDate'}}</td>
+            <td>{{endDate | date:'mediumDate'}}</td>
+            <td>{{frequency | uppercase}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="slideBody">
+    <!--<div *ngIf="showBarContainer">
+    <app-bar-chart></app-bar-chart>
+  </div>-->
+    <div *ngIf="showBarContainer"><img mat-card-sm-image src="{{img}}" /></div>
+    <div *ngIf="showPieContainer">
+      <app-pie-chart></app-pie-chart>
+    </div>
+  </section>
+  <section class="slideFooter">
+    <span>
+      <strong>Disclaimer:</strong>This contains confidential information and is intended only for the individual named.If you are not the named addressee you should not disseminate, distribute or copy this email.You cannot use or forward any attachments in the email.
+    </span>
+  </section>
+</div>
+<style type="text/css">
+  section {
+    border: 1px solid #e8e8e8;
+  }
+  .slideContainer {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    width: 750px;
+    height: 550px;
+    color: #3e3e3e;
+    background-color: #fff;
+  }
+
+  .slideHeader {
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    background-color: #b7b6b6;
+  }
+
+  .slideBody {
+    height: 370px;
+    padding: 10px;
+    width: 100%;
+    background-color: #e5dfdf;
+  }
+
+  .slideFooter {
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    background-color: #b7b6b6;
+  }
+</style>
