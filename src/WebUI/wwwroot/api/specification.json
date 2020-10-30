@@ -11,7 +11,7 @@
         "tags": [
           "Component"
         ],
-        "operationId": "Component_GetBenchmarkReturnsComponent",
+        "operationId": "Component_GetComponent",
         "parameters": [
           {
             "name": "templateName",
