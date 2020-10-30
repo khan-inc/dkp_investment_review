@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/Component/template/{templateName}": {
+    "/api/Component/template/{componentName}": {
       "get": {
         "tags": [
           "Component"
@@ -14,12 +14,11 @@
         "operationId": "Component_GetComponent",
         "parameters": [
           {
-            "name": "templateName",
+            "name": "componentName",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "$ref": "#/components/schemas/ComponentsEnum"
             },
             "x-position": 1
           }
@@ -38,7 +37,7 @@
         }
       }
     },
-    "/api/Component/template/uiTemplate/{templateName}/{uiTemplateName}": {
+    "/api/Component/template/uiTemplate/{componentName}/{uiTemplateName}": {
       "get": {
         "tags": [
           "Component"
@@ -46,12 +45,11 @@
         "operationId": "Component_GetComponentUiTemplate",
         "parameters": [
           {
-            "name": "templateName",
+            "name": "componentName",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "$ref": "#/components/schemas/ComponentsEnum"
             },
             "x-position": 1
           },
@@ -595,6 +593,18 @@
           }
         }
       },
+      "ComponentsEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "BenchmarkReturns",
+          "CapitalStack"
+        ],
+        "enum": [
+          "BenchmarkReturns",
+          "CapitalStack"
+        ]
+      },
       "PaginatedListOfTodoItemDto": {
         "type": "object",
         "additionalProperties": false,
@@ -708,7 +718,7 @@
         }
       },
       "PriorityLevel": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "None",
@@ -717,10 +727,10 @@
           "High"
         ],
         "enum": [
-          0,
-          1,
-          2,
-          3
+          "None",
+          "Low",
+          "Medium",
+          "High"
         ]
       },
       "TodosVm": {
