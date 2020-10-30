@@ -14,11 +14,12 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
 
-namespace DKP.InvestmentReview.WebUI 
+namespace DKP.InvestmentReview.WebUI
 {
     public class Startup
     {
@@ -46,8 +47,13 @@ namespace DKP.InvestmentReview.WebUI
                 .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddControllersWithViews(options =>
-                options.Filters.Add(new ApiExceptionFilterAttribute()))
-                    .AddFluentValidation();
+                        options.Filters.Add(new ApiExceptionFilterAttribute())
+                    )
+                    .AddFluentValidation()
+                    .AddNewtonsoftJson(options =>
+                        options.SerializerSettings.Converters.Add(new StringEnumConverter())
+                    );
+            services.AddSwaggerGenNewtonsoftSupport();
 
             services.AddRazorPages();
 

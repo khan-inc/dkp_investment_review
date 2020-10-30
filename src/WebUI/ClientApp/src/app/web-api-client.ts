@@ -15,8 +15,8 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IComponentClient {
-    getComponent(templateName: string | null): Observable<ComponentTemplate>;
-    getComponentUiTemplate(templateName: string | null, uiTemplateName: string | null): Observable<string>;
+    getComponent(componentName: ComponentsEnum): Observable<ComponentTemplate>;
+    getComponentUiTemplate(componentName: ComponentsEnum, uiTemplateName: string | null): Observable<string>;
 }
 
 @Injectable({
@@ -32,11 +32,11 @@ export class ComponentClient implements IComponentClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    getComponent(templateName: string | null): Observable<ComponentTemplate> {
-        let url_ = this.baseUrl + "/api/Component/template/{templateName}";
-        if (templateName === undefined || templateName === null)
-            throw new Error("The parameter 'templateName' must be defined.");
-        url_ = url_.replace("{templateName}", encodeURIComponent("" + templateName));
+    getComponent(componentName: ComponentsEnum): Observable<ComponentTemplate> {
+        let url_ = this.baseUrl + "/api/Component/template/{componentName}";
+        if (componentName === undefined || componentName === null)
+            throw new Error("The parameter 'componentName' must be defined.");
+        url_ = url_.replace("{componentName}", encodeURIComponent("" + componentName));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -83,11 +83,11 @@ export class ComponentClient implements IComponentClient {
         return _observableOf<ComponentTemplate>(<any>null);
     }
 
-    getComponentUiTemplate(templateName: string | null, uiTemplateName: string | null): Observable<string> {
-        let url_ = this.baseUrl + "/api/Component/template/uiTemplate/{templateName}/{uiTemplateName}";
-        if (templateName === undefined || templateName === null)
-            throw new Error("The parameter 'templateName' must be defined.");
-        url_ = url_.replace("{templateName}", encodeURIComponent("" + templateName));
+    getComponentUiTemplate(componentName: ComponentsEnum, uiTemplateName: string | null): Observable<string> {
+        let url_ = this.baseUrl + "/api/Component/template/uiTemplate/{componentName}/{uiTemplateName}";
+        if (componentName === undefined || componentName === null)
+            throw new Error("The parameter 'componentName' must be defined.");
+        url_ = url_.replace("{componentName}", encodeURIComponent("" + componentName));
         if (uiTemplateName === undefined || uiTemplateName === null)
             throw new Error("The parameter 'uiTemplateName' must be defined.");
         url_ = url_.replace("{uiTemplateName}", encodeURIComponent("" + uiTemplateName));
@@ -951,6 +951,11 @@ export interface IDataSet {
     fields?: string[] | undefined;
 }
 
+export enum ComponentsEnum {
+    BenchmarkReturns = "BenchmarkReturns",
+    CapitalStack = "CapitalStack",
+}
+
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
     items?: TodoItemDto[] | undefined;
     pageIndex?: number;
@@ -1204,10 +1209,10 @@ export interface IUpdateTodoItemDetailCommand {
 }
 
 export enum PriorityLevel {
-    None = 0,
-    Low = 1,
-    Medium = 2,
-    High = 3,
+    None = "None",
+    Low = "Low",
+    Medium = "Medium",
+    High = "High",
 }
 
 export class TodosVm implements ITodosVm {

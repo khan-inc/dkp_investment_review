@@ -9,16 +9,26 @@ namespace DKP.InvestmentReview.WebUI.Controllers
     public class ComponentController : ApiController
     {
 
-        [HttpGet("template/{templateName}")]
-        public Task<ComponentTemplate> GetComponent(string templateName)
+        [HttpGet("template/{componentName}")]
+        public Task<ComponentTemplate> GetComponent(ComponentsEnum componentName)
         {
+            string templateName = componentName.ToString();
             return Mediator.Send(new GetComponentQuery(templateName));
         }
 
-        [HttpGet("template/uiTemplate/{templateName}/{uiTemplateName}")]
-        public Task<string> GetComponentUiTemplate(string templateName, string uiTemplateName)
+        [HttpGet("template/uiTemplate/{componentName}/{uiTemplateName}")]
+        public Task<string> GetComponentUiTemplate(ComponentsEnum componentName, string uiTemplateName)
         {
+            string templateName = componentName.ToString();
+
             return Mediator.Send(new GetComponentUiQuery(templateName, uiTemplateName));
         }
     }
+
+    public enum ComponentsEnum
+    { 
+        BenchmarkReturns,
+        CapitalStack
+    }
+    
 }
