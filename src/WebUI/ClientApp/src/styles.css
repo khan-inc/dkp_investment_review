@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+
+body {
+  background-color: #dcdcdc;
+}
+
 a {
   color: #0366d6;
 }
@@ -51,12 +56,12 @@ code {
   background-color:#fff;
 }
 
-#myDIVAttr {
+.config-section {
   height: 570px;
   width: 400px;
   padding: 10px;  
   border: 2px ridge;
-  background-color: #f2f2f2;
+  background-color: #fff;
 }
 
 #myDIVTemplate1 {
@@ -66,4 +71,8 @@ code {
   margin: 15px;
   border: 2px ridge;
   background-color: #ccc8c8;
+}
+
+.table-header {
+  font-size: 12px;
 }

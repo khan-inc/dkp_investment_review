@@ -7,7 +7,6 @@ import { Router } from "@angular/router";
 })
 export class HomeComponent {
   public bookData: any = [];
-  //private router = ActivatedRoute;
 
   constructor(private router: Router) {
   };

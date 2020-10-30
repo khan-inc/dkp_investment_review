@@ -1,4 +1,4 @@
-import { Component,Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActionModel } from '../model/action.model';
 import { ActionService } from '../service/template.observable.service';
 
@@ -15,7 +15,7 @@ export class AppTemplateActionComponent {
   public templateName: string;
   public templateId: string;
   public inputPara: any = [];
-  @Input() public tempId: string; 
+  @Input() public tempId: string;
   @Output() public emitAction: EventEmitter<ActionModel> = new EventEmitter();
 
   public inputArray: any = [
@@ -29,8 +29,8 @@ export class AppTemplateActionComponent {
           "name": "accountName",
           "type": "text",
           "value": null,
-          "title": "Account Name",
-          "placeholder": "Enter account name"
+          "title": "Benchmark Name",
+          "placeholder": "benchmark name"
         },
         {
           "id": 2,
@@ -38,7 +38,7 @@ export class AppTemplateActionComponent {
           "type": "date",
           "value": null,
           "title": "Start Date",
-          "placeholder": "Enter start date"
+          "placeholder": "Start date"
         },
         {
           "id": 3,
@@ -46,7 +46,7 @@ export class AppTemplateActionComponent {
           "type": "date",
           "value": null,
           "title": "End Date",
-          "placeholder": "Enter end date"
+          "placeholder": "End date"
         },
         {
           "id": 4,
@@ -54,7 +54,7 @@ export class AppTemplateActionComponent {
           "type": "text",
           "value": null,
           "title": "Frequency",
-          "placeholder": "Enter frequency"
+          "placeholder": "Frequency"
         }
       ],
       "dataSets": [
@@ -74,8 +74,8 @@ export class AppTemplateActionComponent {
       ]
     }
   ];
- 
-  constructor(private actionService: ActionService) {    
+
+  constructor(private actionService: ActionService) {
   }
 
   ngOnInit() {
@@ -92,17 +92,17 @@ export class AppTemplateActionComponent {
     }
     else if (this.tempId != undefined && this.tempId === "2") {
       this.templateId = this.tempId;
-      this.templateName = "Risk Analysis";     
+      this.templateName = "Risk Analysis";
     }
   }
 
   onClickGenerate() {
-    if (this.inputPara != undefined) {     
+    if (this.inputPara != undefined) {
       let _accountname: string;
       let _stDate: string;
       let _enDate: string;
       let _frequency: string;
-      
+
       this.inputPara.forEach(function (item) {
         if (item.name === 'accountName') {
           _accountname = item.value;
@@ -117,7 +117,7 @@ export class AppTemplateActionComponent {
           _frequency = item.value;
         }
       });
-     
+
       if (_accountname === null) return;
       if (_stDate === null) return;
       if (_enDate === null) return;
@@ -137,7 +137,7 @@ export class AppTemplateActionComponent {
   bindActionModel(clientName: string,
     stDate: string,
     enDate: string,
-    frequency:string): ActionModel {
+    frequency: string): ActionModel {
     let _action = new ActionModel();
     _action.tempId = this.templateId;
     _action.templateName = this.templateName;
