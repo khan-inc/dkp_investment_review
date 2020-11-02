@@ -2,8 +2,8 @@
   <section class="slideHeader">    
     <div class="row">
       <div class="col-md-12">
-        <h3> Benchmark returns - {{accountName | uppercase}}</h3>
-        <span>Returns are from {{startDate | date:'mediumDate'}} to {{endDate | date:'mediumDate'}} </span>
+        <h3 contenteditable="true"> Benchmark returns - {{accountName | uppercase}}</h3>
+        <span contenteditable="true">Returns are from {{startDate | date:'mediumDate'}} to {{endDate | date:'mediumDate'}} </span>
       </div>
     </div>
   </section>
@@ -15,7 +15,7 @@
     </div>
   </section>
   <section class="slideFooter">
-    <span>
+    <span contenteditable="true">
       <strong>Disclaimer:</strong>
       This contains confidential information and is intended only for the individual named.
       If you are not the named addressee you should not disseminate, distribute or copy this email.
@@ -55,5 +55,6 @@
     width: 100%;
     padding: 10px;
     font-size: 12px;
+    text-align: center;
   }
 </style>

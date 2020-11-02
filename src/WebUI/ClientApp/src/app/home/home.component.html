@@ -1,33 +1,24 @@
 <div class="row" style="margin-top:10px">
   <div class="col-md-12">
-    <span>Client Deals(31)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-warning">(11)Pitching</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-success">(2)GreenLight</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-primary">(2)Approved</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-danger">(2)Mandated</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-outline-info">(14)In-Market</button>
+    <span>Books (7)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-outline-success">(3)Pending</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-outline-primary">(4)Approved</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   </div>
  </div>
 <div class="row" style="margin-top:20px">
   <div class="col-md-12">
     <table id="tblCommon">
       <tr>        
-        <th>Deal Name</th>
+        <th>Book Name</th>
         <th>Status</th>
-        <th>Region</th>
-        <th>Deal Size</th>
         <th>Deal Type</th>
-        <th>Commitment Date</th>
-        <th>Launch Date</th>
+        <th>Created On</th>
       </tr>
       <tr *ngFor="let book of bookData; let i = index">        
         <td>{{book.dealName}}</td>
         <td>{{book.status}}</td>
-        <td>{{book.reason}}</td>
-        <td>{{book.dealSize}}</td>
         <td>{{book.dealType}}</td>
         <td>{{book.commitmentDate}}</td>
-        <td>{{book.launchDate}}</td>
       </tr>
     </table>
   </div>
