@@ -19,8 +19,6 @@ import { AppTemplateComponent } from './template/template-container.controller';
 import { AppTemplateActionComponent  } from './template-action/template-action.component';
 import { AppTemplateViewComponent } from './template-view/template-view.component';
 import { ChartsModule } from 'ng2-charts';
-import { BarChartComponent } from './template-view/bar-chart.component';
-import { PieChartComponent } from './template-view/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -32,9 +30,7 @@ import { PieChartComponent } from './template-view/pie-chart.component';
     TodoComponent,
     AppTemplateComponent,
     AppTemplateActionComponent,
-    AppTemplateViewComponent,
-    BarChartComponent,
-    PieChartComponent
+    AppTemplateViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
