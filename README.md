@@ -1,7 +1,5 @@
- <img align="left" width="116" height="116" src="https://raw.githubusercontent.com/jasontaylordev/CleanArchitecture/master/.github/icon.png" />
  
  # Clean Architecture Solution Template
-![.NET Core](https://github.com/jasontaylordev/CleanArchitecture/workflows/.NET%20Core/badge.svg) [![Build status](https://codingflow.visualstudio.com/CleanArchitecture/_apis/build/status/CleanArchitecture-CI)](https://codingflow.visualstudio.com/CleanArchitecture/_build/latest?definitionId=23) [![Clean.Architecture.Solution.Template NuGet Package](https://img.shields.io/badge/nuget-1.1.1-blue)](https://www.nuget.org/packages/Clean.Architecture.Solution.Template) [![NuGet](https://img.shields.io/nuget/dt/Clean.Architecture.Solution.Template.svg)](https://www.nuget.org/packages/Clean.Architecture.Solution.Template) [![Twitter Follow](https://img.shields.io/twitter/follow/jasontaylordev.svg?style=social&label=Follow)](https://twitter.com/jasontaylordev)
 
 <br/>
 
@@ -30,7 +28,6 @@ The easiest way to get started is to install the [NuGet package](https://www.nug
 6. Navigate to `src/WebUI/ClientApp` and run `npm start` to launch the front end (Angular)
 7. Navigate to `src/WebUI` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
 
-Check out my [blog post](https://jasontaylor.dev/clean-architecture-getting-started/) for more information.
 
 ### Database Configuration
 
@@ -76,10 +73,3 @@ This layer contains classes for accessing external resources such as file system
 
 This layer is a single page application based on Angular 9 and ASP.NET Core 3.1. This layer depends on both the Application and Infrastructure layers, however, the dependency on Infrastructure is only to support dependency injection. Therefore only *Startup.cs* should reference Infrastructure.
 
-## Support
-
-If you are having problems, please let us know by [raising a new issue](https://github.com/jasontaylordev/CleanArchitecture/issues/new/choose).
-
-## License
-
-This project is licensed with the [MIT license](LICENSE).
