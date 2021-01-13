@@ -19,6 +19,8 @@ import { AppTemplateComponent } from './template/template-container.controller';
 import { AppTemplateActionComponent  } from './template-action/template-action.component';
 import { AppTemplateViewComponent } from './template-view/template-view.component';
 import { ChartsModule } from 'ng2-charts';
+import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { ChartsModule } from 'ng2-charts';
     TodoComponent,
     AppTemplateComponent,
     AppTemplateActionComponent,
-    AppTemplateViewComponent
+    AppTemplateViewComponent,
+    DocumentTemplateComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,11 +44,12 @@ import { ChartsModule } from 'ng2-charts';
     ApiAuthorizationModule,
     ChartsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: DashboardComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
-      { path: 'apptemplate', component: AppTemplateComponent }
+      { path: 'apptemplate', component: AppTemplateComponent },
+      { path: 'document-template', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
     ModalModule.forRoot()
