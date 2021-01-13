@@ -21,6 +21,7 @@ import { AppTemplateViewComponent } from './template-view/template-view.componen
 import { ChartsModule } from 'ng2-charts';
 import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppTemplateActionComponent,
     AppTemplateViewComponent,
     DocumentTemplateComponent,
-    DashboardComponent
+    DashboardComponent,
+    DocumentHistoryGridComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
