@@ -1,0 +1,9 @@
+.template-section{
+    width: 75%;
+    overflow:auto;
+}
+
+.config-section {
+    width: 25%;
+    overflow:auto;
+  }

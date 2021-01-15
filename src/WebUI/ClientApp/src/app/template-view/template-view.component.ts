@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActionService } from '../service/template.observable.service';
 import { Subscription } from 'rxjs';
+import { DocumentTeplate, Widget, Parameter, ParameterTypes } from '../model/DocumentTemplate';
 
 @Component({
   selector: 'app-template-view-container',
-  templateUrl: './template-view.component.html'
+  templateUrl: './template-view.component.html',
+  styleUrls: ['./template-view.component.css']
 })
 export class AppTemplateViewComponent {
   public accountName: string;
@@ -18,9 +20,15 @@ export class AppTemplateViewComponent {
   public showPieContainer: boolean;
   public img: any;
   public imgPie: any;
+  public headerTitle: string;
+  public headerSubtitle: string;
   //@ViewChild('myDiv') mydiv: ElementRef;
   @Input() public tempId: string;  
   subscription: Subscription;
+  @Input() public widgets: Widget[];  
+  public contentWidgets: Widget[] = [];
+  public selectedWidget: Widget;
+  @Output() selectedWidgetChanged: EventEmitter<Widget> = new EventEmitter();
     
   constructor(private actionService: ActionService) {    
     this.subscription = this.actionService.getActionMessage()
@@ -58,6 +66,9 @@ export class AppTemplateViewComponent {
     this.startDate = "1819-01-01";
     this.endDate = "1819-03-31";
     this.frequency = "<Frequency>";
+    this.headerTitle = `Benchmark returns - ${this.accountName}`;
+
+    this.bindTemplate();
   }
 
   ngOnDestroy() {   
@@ -77,5 +88,34 @@ export class AppTemplateViewComponent {
   }
 
   onClickMe() {
+  }
+
+  private bindTemplate(){
+    //this.setHeaderWidget();
+    this.setContentWidgets()
+  }
+
+  private setHeaderWidget(){
+    let headerWidget = this.widgets.find(x => x.widgetName == "Header");
+    console.log(headerWidget);
+  }
+
+  private setContentWidgets(){
+    this.contentWidgets = this.widgets.filter( x=> (x.widgetName != 'Header' && x.widgetName != 'Footer'));
+    console.log('Arrays',this.contentWidgets);
+  }
+
+  onSelectWidgetByName(widgetName: string){
+    let selectedItem = this.widgets.find(x => x.widgetName == widgetName)
+
+    if(selectedItem){
+      this.onSelectWidget(selectedItem);
+    }
+  }
+
+  onSelectWidget(widget:Widget){
+    console.log(widget);
+    this.selectedWidget = widget;
+    this.selectedWidgetChanged.emit(widget);
   }
 }

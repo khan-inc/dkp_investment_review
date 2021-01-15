@@ -2,16 +2,148 @@
 
 /* Provide sufficient contrast against white background */
 
-body {
-  background-color: #dcdcdc;
+body{
+  font-size: 13px;
+  color: #495057;
+  letter-spacing: 0.3px;
 }
 
 a {
   color: #0366d6;
+  text-decoration: underline;
 }
 
 code {
   color: #e01a76;
+}
+
+.DocGen-container{
+    width: 100%;
+    padding-right: 50px;
+    padding-left: 50px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.DocGen-header{
+  padding-bottom: 40px;
+  background: #F9F9F9 0% 0% no-repeat padding-box;
+}
+
+.DocGen-navbar{
+  top: 0px;
+  left: 0px;
+  height: 52px;
+  background: #353F81 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding: 0px;
+}
+
+.DocGen-brand{
+  padding-left: 30px;
+  font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  font: normal normal bold 20px/24px Arial;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.DocGen-brand:hover{
+  font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  font: normal normal bold 20px/24px Arial;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.DocGen-Username{
+  font-size: 14px;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  padding-right: 30px;
+}
+
+.DocGen-main-content{
+  top: 0px;
+  left: 0px;
+  background: #F9F9F9 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding: 0px 30px 30px 30px;
+}
+
+.DocGen-btn-primary{
+  background: #408EC6 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: center;
+  letter-spacing: 0.38px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  opacity: 1;  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+.DocGen-table{
+  width: 100%;
+}
+
+.DocGen-table tbody{
+  box-shadow: 0px 0px 6px #E1E1EA;
+}
+
+.DocGen-table th{
+  background-color: #E9ECEF; 
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+.DocGen-table th:first-child{
+  border-radius: 5px 0px 0px 5px;
+  padding-left: 25px;
+}
+
+.DocGen-table th:last-child{
+  border-radius: 0px 5px 5px 0px;
+  padding-right: 25px;
+}
+
+.DocGen-table thead td{
+  padding: 0px !important;
+}
+
+.DocGen-table tbody tr td{
+  padding: 15px 25px 15px 25px;
+  background-color: white;
+  border-bottom: solid 1px #E9ECEF;
+}
+
+.DocGen-table tbody tr:last-child td{
+  border-width: 0px;
+}
+
+.DocGen-table tr:first-child td:first-child{
+  border-top-left-radius: 5px;
+}
+
+.DocGen-table tr:first-child td:last-child{
+  border-top-right-radius: 5px;
+}
+
+.DocGen-table tr:last-child td:first-child{
+  border-bottom-left-radius: 5px;
+}
+
+.DocGen-table tr:last-child td:last-child{
+  border-bottom-right-radius: 5px;
 }
 
 .btn-primary {
@@ -54,14 +186,6 @@ code {
   margin: 15px;
   border: 2px ridge ;
   background-color:#fff;
-}
-
-.config-section {
-  height: 570px;
-  width: 400px;
-  padding: 10px;  
-  border: 2px ridge;
-  background-color: #fff;
 }
 
 #myDIVTemplate1 {
