@@ -138,6 +138,76 @@ export class ComponentClient implements IComponentClient {
     }
 }
 
+export interface IDocumentHistoryGridServiceClient {
+    getDocumentHistoryGridDetails(): Observable<HistoryGridData[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentHistoryGridServiceClient implements IDocumentHistoryGridServiceClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getDocumentHistoryGridDetails(): Observable<HistoryGridData[]> {
+        let url_ = this.baseUrl + "/api/DocumentHistoryGridService";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocumentHistoryGridDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocumentHistoryGridDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<HistoryGridData[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HistoryGridData[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDocumentHistoryGridDetails(response: HttpResponseBase): Observable<HistoryGridData[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(HistoryGridData.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HistoryGridData[]>(<any>null);
+    }
+}
+
 export interface ITodoItemsClient {
     getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
     create(command: CreateTodoItemCommand): Observable<number>;
@@ -954,6 +1024,50 @@ export interface IDataSet {
 export enum ComponentsEnum {
     BenchmarkReturns = "BenchmarkReturns",
     CapitalStack = "CapitalStack",
+}
+
+export class HistoryGridData implements IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
+
+    constructor(data?: IHistoryGridData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.template = _data["template"];
+            this.date = _data["date"];
+        }
+    }
+
+    static fromJS(data: any): HistoryGridData {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoryGridData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["template"] = this.template;
+        data["date"] = this.date;
+        return data; 
+    }
+}
+
+export interface IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  faCaretDown = faCaretDown;
 
   collapse() {
     this.isExpanded = false;

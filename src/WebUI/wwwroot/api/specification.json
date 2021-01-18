@@ -78,6 +78,29 @@
         }
       }
     },
+    "/api/DocumentHistoryGridService": {
+      "get": {
+        "tags": [
+          "DocumentHistoryGridService"
+        ],
+        "operationId": "DocumentHistoryGridService_getDocumentHistoryGridDetails",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HistoryGridData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "get": {
         "tags": [
@@ -604,6 +627,24 @@
           "BenchmarkReturns",
           "CapitalStack"
         ]
+      },
+      "HistoryGridData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "template": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "PaginatedListOfTodoItemDto": {
         "type": "object",

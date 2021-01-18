@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ActionModel } from '../model/action.model';
 import { ActionService } from '../service/template.observable.service';
+import { Parameter } from '../web-api-client';
 
 @Component({
   selector: 'app-template-action',
-  templateUrl: './template-action.component.html'
+  templateUrl: './template-action.component.html',
+  styleUrls:['./template-action.component.css']
 })
 
 export class AppTemplateActionComponent {
@@ -16,6 +18,7 @@ export class AppTemplateActionComponent {
   public templateId: string;
   public inputPara: any = [];
   @Input() public tempId: string;
+  @Input() widgetParams: Parameter[];
   @Output() public emitAction: EventEmitter<ActionModel> = new EventEmitter();
 
   public inputArray: any = [

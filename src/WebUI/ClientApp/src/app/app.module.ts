@@ -50,11 +50,13 @@ import { CreatePPTComponent } from './create-ppt/create-ppt.component';
     ChartsModule,
     RouterModule.forRoot([
       { path: '', component: DashboardComponent, pathMatch: 'full' },
+      { path: 'Home', component: HomeComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
       { path: 'apptemplate', component: AppTemplateComponent },
-      { path: 'document-template', component: DocumentTemplateComponent }
+      { path: 'document-template', component: DocumentTemplateComponent },
+      { path: 'template-container', component: AppTemplateComponent}
     ]),
     BrowserAnimationsModule,    
     ModalModule.forRoot(), NgbModule
