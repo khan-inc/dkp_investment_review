@@ -1,0 +1,6 @@
+<div ngbDropdown class="d-inline-block">
+    <button class="btn btn-primary" id="ddlCreatePPT" ngbDropdownToggle>Create PPT</button>
+    <ul ngbDropdownMenu aria-labelledby="ddlCreatePPT">
+      <li *ngFor="let link of returnData"><a ngbDropdownItem href="{{link.URL}}">{{link.title}}</a></li>
+    </ul>
+  </div>

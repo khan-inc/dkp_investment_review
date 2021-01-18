@@ -22,6 +22,8 @@ import { ChartsModule } from 'ng2-charts';
 import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreatePPTComponent } from './create-ppt/create-ppt.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
     AppTemplateViewComponent,
     DocumentTemplateComponent,
     DashboardComponent,
-    DocumentHistoryGridComponent
+    DocumentHistoryGridComponent,
+    CreatePPTComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,7 +57,7 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
       { path: 'document-template', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
-    ModalModule.forRoot()
+    ModalModule.forRoot(), NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
