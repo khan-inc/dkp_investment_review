@@ -14,8 +14,8 @@ export class CreatePPTComponent implements OnInit {
   }
 
   returnData = [
-    { "title": "from Excel", "URL": "#" },
-    { "title": "from Tableau", "URL": "#" },
-    { "title": "from Both", "URL": "#" },
+    { "title": "Template 1 (Excel)", "URL": "#" },
+    { "title": "Template 2 (Tableau)", "URL": "#" },
+    { "title": "Template 3 (Excel & Tableau)", "URL": "#" },
 ];
 }
