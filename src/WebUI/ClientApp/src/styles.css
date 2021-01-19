@@ -17,6 +17,11 @@ code {
   color: #e01a76;
 }
 
+.create-ppt-link{
+  text-decoration:none;
+  font-size: 13px;
+}
+
 .DocGen-container{
     width: 100%;
     padding-right: 50px;

@@ -132,6 +132,29 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 await context.SaveChangesAsync();
             }
+
+            if (!context.PPTTemplates.Any())
+            {
+                context.PPTTemplates.Add(new pptLinkTemplate(){
+                    Id = 1,
+                    Name = "Template 1 (Excel)",
+                    URL = "#"
+                });
+
+                context.PPTTemplates.Add(new pptLinkTemplate(){
+                    Id = 2,
+                    Name = "Template 2 (Tableau)",
+                    URL = "#"
+                });
+
+                context.PPTTemplates.Add(new pptLinkTemplate(){
+                    Id = 3,
+                    Name = "Template 3 (Excel & Tableau)",
+                    URL = "#"
+                });
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

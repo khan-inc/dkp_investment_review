@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from "@angular/router";
+import { DocumentTemplateClient,PptLinkTemplateDTO } from '../web-api-client';
 @Component({
   selector: 'app-create-ppt',
   templateUrl: './create-ppt.component.html',
@@ -7,15 +8,22 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class CreatePPTComponent implements OnInit {
+  public _router;
+  public lstOfPPTtemplates: PptLinkTemplateDTO[];
 
-  constructor() { }
+  constructor(private client: DocumentTemplateClient, private router:Router) {
+    this._router = router;
+
+    client.getPPTTemplate().subscribe(result=>{
+      this.lstOfPPTtemplates = result;
+    }, error => console.error(error));
+  }
 
   ngOnInit(): void {
   }
 
-  returnData = [
-    { "title": "Template 1 (Excel)", "URL": "#" },
-    { "title": "Template 2 (Tableau)", "URL": "#" },
-    { "title": "Template 3 (Excel & Tableau)", "URL": "#" },
-];
+  CreatePPTClick(id:number,e: Event){
+    e.preventDefault();
+    this._router.navigateByUrl(`/apptemplate?id=${id}`);
+  }
 }

@@ -37,6 +37,8 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
         public DbSet<DocTemplate> DocTemplates { get; set; }
 
+        public DbSet<pptLinkTemplate> PPTTemplates { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())

@@ -210,6 +210,7 @@ export class DocumentHistoryGridServiceClient implements IDocumentHistoryGridSer
 
 export interface IDocumentTemplateClient {
     getDocument(id: number): Observable<DocTemplateDto>;
+    getPPTTemplate(): Observable<PptLinkTemplateDTO[]>;
 }
 
 @Injectable({
@@ -274,6 +275,58 @@ export class DocumentTemplateClient implements IDocumentTemplateClient {
             }));
         }
         return _observableOf<DocTemplateDto>(<any>null);
+    }
+
+    getPPTTemplate(): Observable<PptLinkTemplateDTO[]> {
+        let url_ = this.baseUrl + "/api/DocumentTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPPTTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPPTTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPPTTemplate(response: HttpResponseBase): Observable<PptLinkTemplateDTO[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PptLinkTemplateDTO.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PptLinkTemplateDTO[]>(<any>null);
     }
 }
 
@@ -1304,6 +1357,50 @@ export enum ParameterType {
     Number = "Number",
     File = "File",
     Date = "Date",
+}
+
+export class PptLinkTemplateDTO implements IPptLinkTemplateDTO {
+    id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
+
+    constructor(data?: IPptLinkTemplateDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.url = _data["url"];
+        }
+    }
+
+    static fromJS(data: any): PptLinkTemplateDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new PptLinkTemplateDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["url"] = this.url;
+        return data; 
+    }
+}
+
+export interface IPptLinkTemplateDTO {
+    id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
