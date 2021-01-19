@@ -1,25 +1,13 @@
 <div id="slideComponent" class="slideContainer">
   <section class="slideHeader">    
     <div class="widgetDefultText" (click)="onSelectWidgetByName('Header')"> Enter Header </div>
-    <!-- <h3 contenteditable="true">{{headerTitle}}</h3>
-    <span contenteditable="true">Returns are from {{startDate | date:'mediumDate'}} to {{endDate | date:'mediumDate'}} </span> -->
   </section>
   <section class="slideBody">
-    <!-- <div *ngIf="showBarContainer"><img mat-card-sm-image src="{{img}}" /></div>
-    <div *ngIf="showPieContainer">
-      <img mat-card-sm-image src="{{imgPie}}" />
-    </div> -->
     <div *ngFor="let item of contentWidgets" class="widget" (click)="onSelectWidget(item)" [class.selected]="item === selectedWidget">
-      <span class="widgetDefultText ">{{item.widgetName}}</span>
+      <span class="widgetDefultText ">{{item.name}}</span>
     </div>
   </section>
   <section class="slideFooter widgetDefultText">
     <div class="defaultHeader" (click)="onSelectWidgetByName('Footer')">Enter Footer</div>
-    <!-- <span contenteditable="true">
-      <strong>Disclaimer:</strong>
-      This contains confidential information and is intended only for the individual named.
-      If you are not the named addressee you should not disseminate, distribute or copy this email.
-      You cannot use or forward any attachments in the email.
-    </span> -->
   </section>
 </div>

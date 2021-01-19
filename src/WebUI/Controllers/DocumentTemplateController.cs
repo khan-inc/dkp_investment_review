@@ -8,8 +8,7 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         
         [HttpGet("{id}")]
         public async Task<ActionResult<DocTemplateDto>> GetDocument(int id){
-            //return await Mediator.Send(new GetDocTemplateQuery(){DocumentTemplateId = id});
-            return null;
+            return await Mediator.Send(new GetDocTemplateQuery(){DocumentTemplateId = id});
         }
     }
 }
