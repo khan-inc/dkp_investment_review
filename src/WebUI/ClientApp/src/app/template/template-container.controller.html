@@ -2,16 +2,16 @@
     <div class="col-md-8"><h5>Template Configuration</h5></div>
     <div class="col-md-4" style="text-align: right;padding-bottom: 15px;">
       <button class="btn DocGen-btn-primary">Cancel</button>
-      <button class="btn DocGen-btn-primary">Generate</button>
+      <button class="btn DocGen-btn-primary" (click)="OnGenerate()">Generate</button>
     </div>
     <div class="col-md-12">
       <div style="display: flex; flex-wrap: wrap;">
         <div class="template-section">
-          <app-template-view-container [tempId]="temId" [widgets]="docTemplate.widgets" (selectedWidgetChanged)="selectedWidgetChanged($event)">
+          <app-template-view-container [widgets]="docTemplate.widgets" (selectedWidgetChanged)="selectedWidgetChanged($event)">
           </app-template-view-container>
         </div>
         <div id="configSection" class="config-section">
-          <app-template-action [tempId]="temId" [widgetParams]="selectedWidgetParameters"></app-template-action>
+          <app-template-action [widgetParams]="selectedWidgetParameters"></app-template-action>
         </div>
       </div>
     </div>

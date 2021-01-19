@@ -55,8 +55,7 @@ import { CreatePPTComponent } from './create-ppt/create-ppt.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
       { path: 'apptemplate', component: AppTemplateComponent },
-      { path: 'document-template', component: DocumentTemplateComponent },
-      { path: 'template-container', component: AppTemplateComponent}
+      { path: 'apptemplateview', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
     ModalModule.forRoot(), NgbModule

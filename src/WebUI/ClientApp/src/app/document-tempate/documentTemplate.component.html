@@ -1,1 +1,16 @@
-<p>Document template works!!!</p>
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <h5>Title</h5><input class="DocGen-Textbox" type="Text" [(ngModel)]="docTitle">
+        </div>
+    </div>
+    <div class="col-md-4" style="text-align: right;padding-bottom: 15px;">
+      <button class="btn DocGen-btn-primary">Cancel</button>
+      <button class="btn DocGen-btn-primary" (click)="OnExport()">Export PPT</button>
+    </div>
+    <div class="col-md-12">
+      <div class="contents">
+
+      </div>
+    </div>
+ </div>

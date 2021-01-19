@@ -14,6 +14,6 @@ export class DashboardComponent {
     }
 
     CreatePPTClick(){
-        this._router.navigateByUrl(`/template-container?id=1`);
+        this._router.navigateByUrl(`/apptemplate?id=1`);
     }
 }

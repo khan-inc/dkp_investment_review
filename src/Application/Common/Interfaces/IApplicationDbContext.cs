@@ -11,6 +11,8 @@ namespace DKP.InvestmentReview.Application.Common.Interfaces
 
         DbSet<TodoItem> TodoItems { get; set; }
 
+        public DbSet<DocTemplate> DocTemplates { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
