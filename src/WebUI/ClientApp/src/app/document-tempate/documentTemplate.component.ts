@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentTeplate } from '../model/DocumentTemplate';
 //import { DocumentTemplateClient } from '../web-api-client';
 
 @Component({
@@ -9,12 +10,20 @@ import { Component, OnInit } from '@angular/core';
 export class DocumentTemplateComponent implements OnInit {
 
   result: string;
+  doc: DocumentTeplate;
+  docTitle: string;
 
-  // constructor(private client : DocumentTemplateClient) { 
-  // }
+  constructor() { 
+    this.doc = history.state.data;
+    console.log(typeof this.doc);
+    console.log(this.doc);
+  }
 
   ngOnInit(): void {
     //this.client.getDocument().subscribe(data => this.result = data, err => console.log(err));
   }
 
+  OnExport(){
+    console.log('On Export');
+  }
 }

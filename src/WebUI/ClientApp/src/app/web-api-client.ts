@@ -208,6 +208,75 @@ export class DocumentHistoryGridServiceClient implements IDocumentHistoryGridSer
     }
 }
 
+export interface IDocumentTemplateClient {
+    getDocument(id: number): Observable<DocTemplateDto>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentTemplateClient implements IDocumentTemplateClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    getDocument(id: number): Observable<DocTemplateDto> {
+        let url_ = this.baseUrl + "/api/DocumentTemplate/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocument(<any>response_);
+                } catch (e) {
+                    return <Observable<DocTemplateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DocTemplateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDocument(response: HttpResponseBase): Observable<DocTemplateDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocTemplateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DocTemplateDto>(<any>null);
+    }
+}
+
 export interface ITodoItemsClient {
     getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
     create(command: CreateTodoItemCommand): Observable<number>;
@@ -1068,6 +1137,173 @@ export interface IHistoryGridData {
     title?: string | undefined;
     template?: string | undefined;
     date?: string | undefined;
+}
+
+export class DocTemplateDto implements IDocTemplateDto {
+    id?: number;
+    name?: string | undefined;
+    widgets?: WidgetDTO[] | undefined;
+
+    constructor(data?: IDocTemplateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            if (Array.isArray(_data["widgets"])) {
+                this.widgets = [] as any;
+                for (let item of _data["widgets"])
+                    this.widgets!.push(WidgetDTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DocTemplateDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocTemplateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        if (Array.isArray(this.widgets)) {
+            data["widgets"] = [];
+            for (let item of this.widgets)
+                data["widgets"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDocTemplateDto {
+    id?: number;
+    name?: string | undefined;
+    widgets?: WidgetDTO[] | undefined;
+}
+
+export class WidgetDTO implements IWidgetDTO {
+    id?: number;
+    name?: string | undefined;
+    docTemplateId?: number;
+    parameters?: WidgetParameterDTO[] | undefined;
+
+    constructor(data?: IWidgetDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.docTemplateId = _data["docTemplateId"];
+            if (Array.isArray(_data["parameters"])) {
+                this.parameters = [] as any;
+                for (let item of _data["parameters"])
+                    this.parameters!.push(WidgetParameterDTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): WidgetDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new WidgetDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["docTemplateId"] = this.docTemplateId;
+        if (Array.isArray(this.parameters)) {
+            data["parameters"] = [];
+            for (let item of this.parameters)
+                data["parameters"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IWidgetDTO {
+    id?: number;
+    name?: string | undefined;
+    docTemplateId?: number;
+    parameters?: WidgetParameterDTO[] | undefined;
+}
+
+export class WidgetParameterDTO implements IWidgetParameterDTO {
+    id?: number;
+    name?: string | undefined;
+    type?: ParameterType;
+    isRequired?: boolean;
+    widgetTemplateId?: number;
+
+    constructor(data?: IWidgetParameterDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.type = _data["type"];
+            this.isRequired = _data["isRequired"];
+            this.widgetTemplateId = _data["widgetTemplateId"];
+        }
+    }
+
+    static fromJS(data: any): WidgetParameterDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new WidgetParameterDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["type"] = this.type;
+        data["isRequired"] = this.isRequired;
+        data["widgetTemplateId"] = this.widgetTemplateId;
+        return data; 
+    }
+}
+
+export interface IWidgetParameterDTO {
+    id?: number;
+    name?: string | undefined;
+    type?: ParameterType;
+    isRequired?: boolean;
+    widgetTemplateId?: number;
+}
+
+export enum ParameterType {
+    Text = "Text",
+    Number = "Number",
+    File = "File",
+    Date = "Date",
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
