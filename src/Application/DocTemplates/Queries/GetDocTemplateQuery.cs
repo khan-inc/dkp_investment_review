@@ -32,7 +32,7 @@ namespace DKP.InvestmentReview.Application.DocTemplates.Queries
             var docTemplate = _context.DocTemplates.Include(doc => doc.Widgets)
                                         .ThenInclude(wid => wid.Parameters)
                                         .First<DocTemplate>(x => x.Id == request.DocumentTemplateId);
-            docTemplate.Widgets = docTemplate.Widgets.ToList().OrderBy(wid => wid.Id).ToList();
+            docTemplate.Widgets = docTemplate.Widgets.OrderBy(wid => wid.Id).ToList();
             docTemplate.Widgets.ToList().ForEach(wid => wid.Parameters = wid.Parameters.OrderBy(p => p.Id).ToList());
             var docTemplateDto = _mapper.Map<DocTemplateDto>(docTemplate);
             return Task.FromResult(docTemplateDto);

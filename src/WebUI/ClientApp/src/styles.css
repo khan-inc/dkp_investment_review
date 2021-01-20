@@ -22,7 +22,7 @@ code {
   font-size: 13px;
 }
 
-.DocGen-container{
+.doc-gen-container{
     width: 100%;
     padding-right: 50px;
     padding-left: 50px;
@@ -30,12 +30,12 @@ code {
     margin-left: auto;
 }
 
-.DocGen-header{
+.doc-gen-header{
   padding-bottom: 40px;
   background: #F9F9F9 0% 0% no-repeat padding-box;
 }
 
-.DocGen-navbar{
+.doc-gen-navbar{
   top: 0px;
   left: 0px;
   height: 52px;
@@ -44,7 +44,7 @@ code {
   padding: 0px;
 }
 
-.DocGen-brand{
+.doc-gen-brand{
   padding-left: 30px;
   font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
   letter-spacing: var(--unnamed-character-spacing-0);
@@ -56,7 +56,7 @@ code {
   text-decoration: none;
 }
 
-.DocGen-brand:hover{
+.doc-gen-brand:hover{
   font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
   letter-spacing: var(--unnamed-character-spacing-0);
   text-align: left;
@@ -67,7 +67,7 @@ code {
   text-decoration: none;
 }
 
-.DocGen-Username{
+.doc-gen-Username{
   font-size: 14px;
   letter-spacing: var(--unnamed-character-spacing-0);
   text-align: left;
@@ -77,7 +77,7 @@ code {
   padding-right: 30px;
 }
 
-.DocGen-main-content{
+.doc-gen-main-content{
   top: 0px;
   left: 0px;
   background: #F9F9F9 0% 0% no-repeat padding-box;
@@ -85,7 +85,7 @@ code {
   padding: 0px 30px 30px 30px;
 }
 
-.DocGen-btn-primary{
+.doc-gen-btn-primary{
   background: #408EC6 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
@@ -97,57 +97,57 @@ code {
   font-size: 13px;
 }
 
-.DocGen-table{
+.doc-gen-table{
   width: 100%;
 }
 
-.DocGen-table tbody{
+.doc-gen-table tbody{
   box-shadow: 0px 0px 6px #E1E1EA;
 }
 
-  .DocGen-table th {
+  .doc-gen-table th {
     background-color: #E9ECEF;
     padding: 8px 25px;
     text-transform: uppercase;
   }
 
-.DocGen-table th:first-child{
+.doc-gen-table th:first-child{
   border-radius: 5px 0px 0px 5px;
   padding-left: 25px;
 }
 
-.DocGen-table th:last-child{
+.doc-gen-table th:last-child{
   border-radius: 0px 5px 5px 0px;
   padding-right: 25px;
 }
 
-.DocGen-table thead td{
+.doc-gen-table thead td{
   padding: 0px !important;
 }
 
-.DocGen-table tbody tr td{
+.doc-gen-table tbody tr td{
   padding: 15px 25px 15px 25px;
   background-color: white;
   border-bottom: solid 1px #E9ECEF;
 }
 
-.DocGen-table tbody tr:last-child td{
+.doc-gen-table tbody tr:last-child td{
   border-width: 0px;
 }
 
-.DocGen-table tr:first-child td:first-child{
+.doc-gen-table tr:first-child td:first-child{
   border-top-left-radius: 5px;
 }
 
-.DocGen-table tr:first-child td:last-child{
+.doc-gen-table tr:first-child td:last-child{
   border-top-right-radius: 5px;
 }
 
-.DocGen-table tr:last-child td:first-child{
+.doc-gen-table tr:last-child td:first-child{
   border-bottom-left-radius: 5px;
 }
 
-.DocGen-table tr:last-child td:last-child{
+.doc-gen-table tr:last-child td:last-child{
   border-bottom-right-radius: 5px;
 }
 
@@ -157,7 +157,7 @@ code {
   border-color: #1861ac;
 }
 
-.DocGen-Textbox{
+.doc-gen-Textbox{
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #CCCCCC;
   border-radius: 4px;
