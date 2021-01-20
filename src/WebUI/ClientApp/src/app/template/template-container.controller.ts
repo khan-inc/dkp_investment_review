@@ -41,7 +41,16 @@ export class AppTemplateComponent {
     this.selectedWidgetParameters = e.parameters;
   }
 
-  OnGenerate(){
-   this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});
+  onGenerate(){
+    console.log(this.docTemplate);
+
+    var array = this.docTemplate.widgets.map(widget => (
+      widget.parameters.map(para => (
+        {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')
+      }))
+    ));
+
+    console.log(array);
+   //this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});
   }
 }
