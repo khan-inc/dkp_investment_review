@@ -13,7 +13,7 @@ export class DashboardComponent {
         this._router = router;
     }
 
-    CreatePPTClick(){
+    createPPTClick(){
         this._router.navigateByUrl(`/apptemplate?id=1`);
     }
 }

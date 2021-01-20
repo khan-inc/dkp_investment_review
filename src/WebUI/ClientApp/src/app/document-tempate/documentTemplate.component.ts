@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentTeplate } from '../model/DocumentTemplate';
-//import { DocumentTemplateClient } from '../web-api-client';
+import { DocTemplateDto } from '../web-api-client';
 
 @Component({
   selector: 'app-document-template',
@@ -10,7 +9,7 @@ import { DocumentTeplate } from '../model/DocumentTemplate';
 export class DocumentTemplateComponent implements OnInit {
 
   result: string;
-  doc: DocumentTeplate;
+  doc: DocTemplateDto;
   docTitle: string;
 
   constructor() { 
