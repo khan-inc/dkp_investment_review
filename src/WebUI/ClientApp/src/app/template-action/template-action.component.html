@@ -1,5 +1,5 @@
-<div class="form-container">
-  <div *ngFor="let input of inputPara">
+<div class="parameter-section">
+  <!-- <div *ngFor="let input of inputPara">
     <div class="form-group">
       <label [for]='input.name'>{{input.title}}</label>
       <input [type]='input.type'
@@ -9,5 +9,15 @@
              [(ngModel)]='input.value'>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" (click)="onClickGenerate()">Generate</button>
+  <button type="submit" class="btn btn-primary" (click)="onClickGenerate()">Generate</button> -->
+  <div class='para-heading'>Parameters</div>
+  <div *ngIf="widgetParams">
+    <div *ngFor="let input of widgetParams">
+      <label [for]='input.parameterName' class="para-lbl">{{input.name}}</label>
+      <input [type]='getControlType(input.type)'
+             class="para-text"
+             [name]='input.parameterName'
+             [(ngModel)]='input.parameterVal'>
+    </div>
+  </div>
 </div>

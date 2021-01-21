@@ -1,13 +1,20 @@
-<div class="row" style="margin-top: 5px;">
-  <div class="col-md-8">   
-    <app-template-view-container [tempId]="temId">
-    </app-template-view-container>
-  </div>
-  <div class="col-md-4">
-    <div id="configSection" class="config-section">
-      <app-template-action [tempId]="temId"></app-template-action>
+  <div class="row">
+    <div class="col-md-8"><h5>Template Configuration</h5></div>
+    <div class="col-md-4" style="text-align: right;padding-bottom: 15px;">
+      <button class="btn doc-gen-btn-primary">Cancel</button>
+      <button class="btn doc-gen-btn-primary" (click)="onGenerate()">Generate</button>
     </div>
-  </div>
+    <div class="col-md-12">
+      <div style="display: flex; flex-wrap: wrap;">
+        <div class="template-section">
+          <app-template-view-container [widgets]="docTemplate.widgets" (selectedWidgetChanged)="selectedWidgetChanged($event)">
+          </app-template-view-container>
+        </div>
+        <div id="configSection" class="config-section">
+          <app-template-action [widgetParams]="selectedWidgetParameters"></app-template-action>
+        </div>
+      </div>
+    </div>
  </div>
 
 

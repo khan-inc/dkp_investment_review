@@ -2,22 +2,164 @@
 
 /* Provide sufficient contrast against white background */
 
-body {
-  background-color: #dcdcdc;
+body{
+  font-size: 13px;
+  color: #495057;
+  letter-spacing: 0.3px;
 }
 
 a {
   color: #0366d6;
+  text-decoration: underline;
 }
 
 code {
   color: #e01a76;
 }
 
+.doc-gen-container{
+    width: 100%;
+    padding-right: 50px;
+    padding-left: 50px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.doc-gen-header{
+  padding-bottom: 40px;
+  background: #F9F9F9 0% 0% no-repeat padding-box;
+}
+
+.doc-gen-navbar{
+  top: 0px;
+  left: 0px;
+  height: 52px;
+  background: #353F81 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding: 0px;
+}
+
+.doc-gen-brand{
+  padding-left: 30px;
+  font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  font: normal normal bold 20px/24px Arial;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.doc-gen-brand:hover{
+  font: var(--unnamed-font-style-normal) normal bold 20px/24px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  font: normal normal bold 20px/24px Arial;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  text-decoration: none;
+}
+
+.doc-gen-Username{
+  font-size: 14px;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  padding-right: 30px;
+}
+
+.doc-gen-main-content{
+  top: 0px;
+  left: 0px;
+  background: #F9F9F9 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding: 0px 30px 30px 30px;
+}
+
+.doc-gen-btn-primary{
+  background: #408EC6 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: center;
+  letter-spacing: 0.38px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  opacity: 1;  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+}
+
+.doc-gen-table{
+  width: 100%;
+}
+
+.doc-gen-table tbody{
+  box-shadow: 0px 0px 6px #E1E1EA;
+}
+
+  .doc-gen-table th {
+    background-color: #E9ECEF;
+    padding: 8px 25px;
+    text-transform: uppercase;
+  }
+
+.doc-gen-table th:first-child{
+  border-radius: 5px 0px 0px 5px;
+  padding-left: 25px;
+}
+
+.doc-gen-table th:last-child{
+  border-radius: 0px 5px 5px 0px;
+  padding-right: 25px;
+}
+
+.doc-gen-table thead td{
+  padding: 0px !important;
+}
+
+.doc-gen-table tbody tr td{
+  padding: 15px 25px 15px 25px;
+  background-color: white;
+  border-bottom: solid 1px #E9ECEF;
+}
+
+.doc-gen-table tbody tr:last-child td{
+  border-width: 0px;
+}
+
+.doc-gen-table tr:first-child td:first-child{
+  border-top-left-radius: 5px;
+}
+
+.doc-gen-table tr:first-child td:last-child{
+  border-top-right-radius: 5px;
+}
+
+.doc-gen-table tr:last-child td:first-child{
+  border-bottom-left-radius: 5px;
+}
+
+.doc-gen-table tr:last-child td:last-child{
+  border-bottom-right-radius: 5px;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+.doc-gen-Textbox{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  opacity: 1;
+  width: 149px;
+  height: 26px;
+  margin-left: 5px;
 }
 
 #tblCommon {
@@ -54,14 +196,6 @@ code {
   margin: 15px;
   border: 2px ridge ;
   background-color:#fff;
-}
-
-.config-section {
-  height: 570px;
-  width: 400px;
-  padding: 10px;  
-  border: 2px ridge;
-  background-color: #fff;
 }
 
 #myDIVTemplate1 {

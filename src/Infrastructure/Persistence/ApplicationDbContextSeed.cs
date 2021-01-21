@@ -41,6 +41,79 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 await context.SaveChangesAsync();
             }
+
+            if (!context.DocTemplates.Any())
+            {
+                context.DocTemplates.Add(new DocTemplate(){
+                    Name = "Excel template",
+                    Widgets = {
+                        GetHeaderWidget(),
+                        GetFooterWidget(),
+                        GetExcelWidget()
+                    }
+                });
+
+                context.DocTemplates.Add(new DocTemplate(){
+                    Name = "Tableau template",
+                    Widgets = {
+                        GetHeaderWidget(),
+                        GetFooterWidget(),
+                        GetTableauWidget()
+                    }
+                });
+
+                context.DocTemplates.Add(new DocTemplate(){
+                    Name = "Excel and Tableau template",
+                    Widgets = {
+                        GetHeaderWidget(),
+                        GetFooterWidget(),
+                        GetTableauWidget(),
+                        GetExcelWidget()
+                        }
+                    });
+                    
+                await context.SaveChangesAsync();
+            }
+        }
+
+        private static WidgetTemplate GetHeaderWidget(){
+            return new WidgetTemplate{
+                            Name = "Header",
+                            Parameters = {
+                                new WidgetParameter { Name = "Header Text", Type = Domain.Enums.ParameterType.Text, IsRequired = true}
+                            }
+            };
+        }
+
+        private static WidgetTemplate GetFooterWidget(){
+            return new WidgetTemplate{
+                            Name = "Footer",
+                            Parameters = {
+                                new WidgetParameter { Name = "Footer Text", Type = Domain.Enums.ParameterType.Text, IsRequired = true}
+                            }
+            };
+        }
+
+        private static WidgetTemplate GetTableauWidget(){
+            return new WidgetTemplate{
+                            Name = "Tableau",
+                            Parameters = {
+                                new WidgetParameter { Name = "Tableau URL", Type = Domain.Enums.ParameterType.Text, IsRequired = true},
+                                new WidgetParameter { Name = "Tableau Parameters", Type = Domain.Enums.ParameterType.Text}
+                            }
+            };
+        }
+
+        private static WidgetTemplate GetExcelWidget(){
+            return new WidgetTemplate{
+                            Name = "Excel",
+                            Parameters = {
+                                new WidgetParameter { Name = "Filepath", Type = Domain.Enums.ParameterType.File, IsRequired = true},
+                                new WidgetParameter { Name = "Worksheet", Type = Domain.Enums.ParameterType.Text},
+                                new WidgetParameter { Name = "From Cell", Type = Domain.Enums.ParameterType.Text},
+                                new WidgetParameter { Name = "To Cell", Type = Domain.Enums.ParameterType.Text}
+                            }
+            };
         }
     }
 }

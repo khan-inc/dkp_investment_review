@@ -1,60 +1,13 @@
 <div id="slideComponent" class="slideContainer">
   <section class="slideHeader">    
-    <div class="row">
-      <div class="col-md-12">
-        <h3 contenteditable="true"> Benchmark returns - {{accountName | uppercase}}</h3>
-        <span contenteditable="true">Returns are from {{startDate | date:'mediumDate'}} to {{endDate | date:'mediumDate'}} </span>
-      </div>
-    </div>
+    <div class="widgetDefultText" (click)="onSelectWidgetByName('Header')"> Enter Header </div>
   </section>
   <section class="slideBody">
-    <div *ngIf="showBarContainer"><img mat-card-sm-image src="{{img}}" /></div>
-    <div *ngIf="showPieContainer">
-      <!--<app-pie-chart></app-pie-chart>-->
-      <img mat-card-sm-image src="{{imgPie}}" />
+    <div *ngFor="let item of contentWidgets" class="widget" (click)="onSelectWidget(item)" [class.selected]="item === selectedWidget">
+      <span class="widgetDefultText ">{{item.name}}</span>
     </div>
   </section>
-  <section class="slideFooter">
-    <span contenteditable="true">
-      <strong>Disclaimer:</strong>
-      This contains confidential information and is intended only for the individual named.
-      If you are not the named addressee you should not disseminate, distribute or copy this email.
-      You cannot use or forward any attachments in the email.
-    </span>
+  <section class="slideFooter widgetDefultText">
+    <div class="defaultHeader" (click)="onSelectWidgetByName('Footer')">Enter Footer</div>
   </section>
 </div>
-<style type="text/css">
-  section {
-    border: 1px solid #e8e8e8;
-  }
-  .slideContainer {
-    font-family: Tahoma;
-    color:white;
-    font-weight: normal;
-    width: 750px;
-    height: 570px;
-    color: #3e3e3e;
-    background-color: #fff;
-  }
-
-  .slideHeader {
-    height: 100px;
-    width: 100%;
-    padding: 10px;
-  }
-
-  .slideBody {
-    height: 370px;
-    padding: 10px;
-    width: 100%;
-    
-  }
-
-  .slideFooter {
-    height: 100px;
-    width: 100%;
-    padding: 10px;
-    font-size: 12px;
-    text-align: center;
-  }
-</style>
