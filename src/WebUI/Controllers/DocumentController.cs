@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DKP.InvestmentReview.Application.DocTemplates.Queries;
-using DKP.InvestmentReview.Application.Document.Commands;
+using DKP.InvestmentReview.Application.Document.Queries;
 
 namespace DKP.InvestmentReview.WebUI.Controllers
 {
@@ -13,6 +13,11 @@ namespace DKP.InvestmentReview.WebUI.Controllers
             // Step 2: Save Excel file in file system
             // Step 3: Process Excel file to generate the image
             return null;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DocumentVM>> GetDocument(int id){
+            return await Mediator.Send(new GetDocumentQuery(){DocumentId = id});
         }
     }
 }
