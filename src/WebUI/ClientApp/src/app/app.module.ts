@@ -22,6 +22,7 @@ import { ChartsModule } from 'ng2-charts';
 import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
+import { AlertModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
       { path: 'apptemplateview', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

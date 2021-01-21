@@ -14,10 +14,16 @@
   <div *ngIf="widgetParams">
     <div *ngFor="let input of widgetParams">
       <label [for]='input.parameterName' class="para-lbl">{{input.name}}</label>
-      <input [type]='getControlType(input.type)'
+      <input #inputControl [type]='getControlType(input.type)'
              class="para-text"
              [name]='input.parameterName'
-             [(ngModel)]='input.parameterVal'>
+             [(ngModel)]='input.parameterVal'
+             (change)="fileAdded(input, inputControl.files)"
+             >
+      <button class="btn btn-primary" *ngIf="input.type === 'File'" [disabled]="!input.fileData" (click)="uploadFile(inputControl.files)">Upload</button>
+      <div *ngIf="uploadSuccess && input.type === 'File'">
+        <alert type="success">File Uploaded Succssfully!</alert>
+      </div>
     </div>
   </div>
 </div>
