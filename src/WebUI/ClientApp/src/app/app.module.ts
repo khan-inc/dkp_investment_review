@@ -25,6 +25,7 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreatePPTComponent } from './create-ppt/create-ppt.component';
 import { AlertModule } from 'ngx-bootstrap';
+import { WidgetService } from './service/widget.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { AlertModule } from 'ngx-bootstrap';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    WidgetService
   ],
   bootstrap: [AppComponent]
 })
