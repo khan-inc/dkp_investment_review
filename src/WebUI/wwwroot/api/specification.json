@@ -167,6 +167,38 @@
         }
       }
     },
+    "/api/Document/{docId}": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_GetDocumentDTO",
+        "parameters": [
+          {
+            "name": "docId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/DocumentHistoryGridService": {
       "get": {
         "tags": [
@@ -908,6 +940,31 @@
           "value": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "DocumentDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "docTemplateDTO": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DocTemplateDto"
+              }
+            ]
+          },
+          "parameters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DocumentParameterDTO"
+            }
           }
         }
       },
