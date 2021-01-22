@@ -79,6 +79,7 @@
       }
     },
     "/api/Document/Upload": {
+    "/api/Document": {
       "post": {
         "tags": [
           "Document"
@@ -100,6 +101,7 @@
             }
           }
         },
+        "operationId": "Document_CreateDocument",
         "responses": {
           "200": {
             "description": "",
@@ -108,6 +110,9 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocTemplateDto"
                 }
               }
             }
@@ -131,11 +136,66 @@
                 }
               }
             }
+      },
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_ExcelToImageServiceController",
+        "requestBody": {
+          "x-name": "service",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IExcelToImageService"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Document/ConvertExcelToImage": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_ConvertExcelToImage",
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "nameRange",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
     },
     "/api/Document/{id}": {
+    "/api/Document/api/ExcelToImageService/ConvertExcelToImage": {
       "get": {
         "tags": [
           "Document"
@@ -151,6 +211,25 @@
               "format": "int32"
             },
             "x-position": 1
+        "operationId": "Document_ConvertExcelToImage2",
+        "parameters": [
+          {
+            "name": "fileName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "nameRange",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
           }
         ],
         "responses": {
@@ -163,6 +242,7 @@
                 }
               }
             }
+            "description": ""
           }
         }
       }
@@ -910,6 +990,10 @@
             "nullable": true
           }
         }
+      "IExcelToImageService": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
       },
       "HistoryGridData": {
         "type": "object",

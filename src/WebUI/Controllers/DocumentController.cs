@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
 
+using DKP.InvestmentReview.Application.Common.Interfaces;
+
 namespace DKP.InvestmentReview.WebUI.Controllers
 {
     public class DocumentController : ApiController{
@@ -28,6 +30,9 @@ namespace DKP.InvestmentReview.WebUI.Controllers
                 return Ok();
             }
             return BadRequest();
+        private IExcelToImageService excelService;
+        public DocumentController(IExcelToImageService excelrvc) {
+            excelService = excelrvc;
         }
 
         [HttpPost]
@@ -35,6 +40,11 @@ namespace DKP.InvestmentReview.WebUI.Controllers
             // Step 1: Save document record in database
             // Step 2: Save Excel file in file system
             // Step 3: Process Excel file to generate the image
+
+
+           // excelService.ConvertExcelToImage("1/ExampleExcelData_2.xlsx", "Example 3", "B2", "R36", "");
+           excelService.ConvertExcelToImage("1/ExampleExcelData_2.xlsx", null);
+
             return null;
         }
 
@@ -42,5 +52,22 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         public async Task<ActionResult<DocumentVM>> GetDocument(int id){
             return await Mediator.Send(new GetDocumentQuery(){DocumentId = id});
         }
+        public void ExcelToImageServiceController(IExcelToImageService service)
+        {
+            excelService = service;
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        [Route("api/ExcelToImageService/ConvertExcelToImage")]
+        public void ConvertExcelToImage(string fileName, string nameRange)
+        {
+            excelService.ConvertExcelToImage(fileName, nameRange);
+        }
+        //public void ConvertExcelToImage(string fileSourceExcelPath, string worksheetName, string frmCell, string toCell, string fileImageStorePath)
+        //{
+        //    excelService.ConvertExcelToImage(fileSourceExcelPath, worksheetName, frmCell, toCell, fileImageStorePath);
+        //}
+
     }
 }

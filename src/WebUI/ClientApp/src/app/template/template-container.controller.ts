@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, ChangeDetectorRef ,Sanitizer, Securit
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Mustache from 'mustache';
-import { DocTemplateDto, DocumentTemplateClient, WidgetDTO, WidgetParameterDTO } from '../web-api-client';
+import { DocTemplateDto, DocumentClient, DocumentTemplateClient, WidgetDTO, WidgetParameterDTO } from '../web-api-client';
 
 @Component({
   selector: 'app-template-container',
@@ -18,11 +18,14 @@ export class AppTemplateComponent {
   public selectedWidgetParameters: WidgetParameterDTO[];
   public _router: Router;
   public _documentTemplateClient: DocumentTemplateClient;
+  public _documentClient: DocumentClient;
   public docTemplate: DocTemplateDto;
 
-  constructor(private route: ActivatedRoute, private router: Router, documentTemplateClient: DocumentTemplateClient) {    
+  constructor(private route: ActivatedRoute, private router: Router, documentTemplateClient: DocumentTemplateClient,
+    documentClient: DocumentClient) {    
       this._router = router;
-      this._documentTemplateClient = documentTemplateClient;
+    this._documentTemplateClient = documentTemplateClient;
+    this._documentClient = documentClient;
   }  
   
   ngOnInit() {
@@ -41,16 +44,20 @@ export class AppTemplateComponent {
     this.selectedWidgetParameters = e.parameters;
   }
 
-  onGenerate(){
-    console.log(this.docTemplate);
+  onGenerate() {
 
-    var array = this.docTemplate.widgets.map(widget => (
-      widget.parameters.map(para => (
-        {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')
-      }))
-    ));
+    console.log("Entering into Application", this._documentClient);
+    this._documentClient.createDocument().subscribe();
 
-    console.log(array);
+    //console.log(this.docTemplate);
+
+    //var array = this.docTemplate.widgets.map(widget => (
+    //  widget.parameters.map(para => (
+    //    {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')
+    //  }))
+    //));
+
+    //console.log(array);
    //this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});
   }
 }
