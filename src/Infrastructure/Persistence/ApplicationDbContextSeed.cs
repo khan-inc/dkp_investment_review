@@ -46,6 +46,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
             {
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Excel template",
+                    Description = "Template with Excel widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),
@@ -55,6 +56,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Tableau template",
+                    Description = "Template with Tableau widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),
@@ -64,6 +66,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Excel and Tableau template",
+                    Description = "Template with Excel and Tableau widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),

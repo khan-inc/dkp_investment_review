@@ -1,28 +1,30 @@
 <div>
-  <table class="doc-gen-table" *ngIf="gridDetails">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Template</th>
-        <th style="text-align:center;">Date</th>
-        <th style="text-align:center;">Manage</th>
-      </tr>
-      <tr>
-        <td colspan="4" style="height: 10px; background-color: white;opacity: 0;"></td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of gridDetails">
-        <td>{{ item.title }}</td>
-        <td style="text-align:left;">{{ item.template }}</td>
-        <td style="text-align:center;">{{ item.date }}</td>
-        <td style="text-align:center;">
-          <a href="#">Download</a> &nbsp;
-          <a href="#">Edit</a> &nbsp;
-          <a href="#">Delete</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div><h5>Documents</h5></div>
+  <div>
+    <table class="doc-gen-table" *ngIf="gridDetails">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Template</th>
+          <th style="text-align:center;">Date</th>
+          <th style="text-align:center;">Manage</th>
+        </tr>
+        <tr>
+          <td colspan="4" style="height: 10px; background-color: white;opacity: 0;"></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of gridDetails">
+          <td>{{ item.title }}</td>
+          <td style="text-align:left;">{{ item.template }}</td>
+          <td style="text-align:center;">{{ item.date }}</td>
+          <td style="text-align:center;">
+            <a href="#">Download</a> &nbsp;
+            <a href="#">Edit</a> &nbsp;
+            <a href="#">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -26,6 +26,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreatePPTComponent } from './create-ppt/create-ppt.component';
 import { AlertModule } from 'ngx-bootstrap';
 import { WidgetService } from './service/widget.service';
+import { DocumentPreviewComponent } from './document-preview/document-preview.component';
+import { DocumentTemplateListComponent } from './document-template-list/document-template-list.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { WidgetService } from './service/widget.service';
     DashboardComponent,
     DocumentHistoryGridComponent,
     CreatePPTComponent
+    DocumentPreviewComponent,
+    DocumentTemplateListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,9 +59,9 @@ import { WidgetService } from './service/widget.service';
       { path: 'Home', component: HomeComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
+      { path: 'todo', component: TodoComponent },
       { path: 'apptemplate', component: AppTemplateComponent },
-      { path: 'apptemplateview', component: DocumentTemplateComponent }
+      { path: 'documentPreview', component: DocumentPreviewComponent }
     ]),
     BrowserAnimationsModule,    
     ModalModule.forRoot(), NgbModule,

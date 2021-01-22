@@ -15,6 +15,10 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<pptLinkTemplateDTO>>> GetPPTTemplate(){
             return await Mediator.Send(new GetPPTTemplateQuery());
+
+        [HttpGet]
+        public async Task<ActionResult<List<DocTemplateListDTO>>> Get(){
+            return await Mediator.Send(new GetDocTemplateListQuery());
         }
     }
 }

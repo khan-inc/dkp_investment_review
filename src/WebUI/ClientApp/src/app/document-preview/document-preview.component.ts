@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentClient, DocumentParameterDTO, DocumentVM, WidgetDTO } from '../web-api-client';
 
 @Component({
-  selector: 'app-document-template',
-  templateUrl: './documentTemplate.component.html',
-  styleUrls: ['./documentTemplate.component.css']
+  selector: 'app-document-preview',
+  templateUrl: './document-preview.component.html',
+  styleUrls: ['./document-preview.component.css']
 })
-export class DocumentTemplateComponent implements OnInit {
+export class DocumentPreviewComponent implements OnInit {
 
   result: string;
-  //doc: DocTemplateDto;
   docTitle: string;
   _documentClient: DocumentClient;
   headerText: string = '';
@@ -25,7 +24,6 @@ export class DocumentTemplateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.client.getDocument().subscribe(data => this.result = data, err => console.log(err));
     this._documentClient.getDocument(1).subscribe(data => this.renderWidget(data));
   }
 
@@ -84,4 +82,5 @@ export class DocumentTemplateComponent implements OnInit {
       this.footerText = docPara.value;
     }
   }
+
 }

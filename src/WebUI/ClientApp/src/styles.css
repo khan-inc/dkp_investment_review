@@ -167,6 +167,11 @@ code {
   margin-left: 5px;
 }
 
+.doc-gen-grid-header{
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 #tblCommon {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
