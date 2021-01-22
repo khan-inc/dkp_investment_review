@@ -30,6 +30,8 @@ namespace DKP.InvestmentReview.WebUI.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+        
         private IExcelToImageService excelService;
         public DocumentController(IExcelToImageService excelrvc) {
             excelService = excelrvc;

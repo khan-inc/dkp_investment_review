@@ -1,11 +1,8 @@
 using AutoMapper;
 using DKP.InvestmentReview.Application.Common.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DKP.InvestmentReview.Domain.Entities;
 using System.Collections.Generic;
 
 namespace DKP.InvestmentReview.Application.DocTemplates.Queries

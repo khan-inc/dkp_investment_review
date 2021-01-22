@@ -23,7 +23,7 @@ import { DocumentTemplateComponent } from './document-tempate/documentTemplate.c
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
 import { AlertModule } from 'ngx-bootstrap';
-import { WidgetService } from './service/widget.service';
+// import { WidgetService } from './service/widget.service';
 import { DocumentPreviewComponent } from './document-preview/document-preview.component';
 import { DocumentTemplateListComponent } from './document-template-list/document-template-list.component';
 
@@ -41,10 +41,9 @@ import { DocumentTemplateListComponent } from './document-template-list/document
     DocumentTemplateComponent,
     DashboardComponent,
     DocumentHistoryGridComponent,
-    CreatePPTComponent
     DocumentPreviewComponent,
-    DocumentTemplateListComponent
-    DocumentHistoryGridComponent
+    DocumentTemplateListComponent,
+    DocumentHistoryGridComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
