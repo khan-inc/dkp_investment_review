@@ -101,26 +101,31 @@
         "tags": [
           "Document"
         ],
-        "operationId": "Document_saveExcelDocument",
-        "requestBody": {
-          "x-name": "_documentDTO",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DocumentDTO"
+        "operationId": "Document_SaveExcelDocument",
+        "parameters": [
+          {
+            "name": "_formCollection",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/KeyValuePairOfStringAndStringValues"
               }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DocumentDTO"
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -939,46 +944,17 @@
           }
         }
       },
-      "DocumentDTO": {
+      "KeyValuePairOfStringAndStringValues": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
+          "key": {
+            "type": "string"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "docTemplateId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "modifiedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "docTemplateDTO": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/DocTemplateDto"
-              }
-            ]
-          },
-          "parameters": {
+          "value": {
             "type": "array",
-            "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/DocumentParameterDTO"
+              "type": "string"
             }
           }
         }

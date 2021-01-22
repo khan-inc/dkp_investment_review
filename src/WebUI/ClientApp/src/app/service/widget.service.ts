@@ -12,7 +12,7 @@ export class WidgetService {
 
   }
 
-  saveWidget(file: File | null | undefined, data: any){
+  saveWidget(file: File | null | undefined, data: any,templateId:number){
     let url_ = this.baseUrl || '' + "/api/Document";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -23,7 +23,7 @@ export class WidgetService {
         if(data){
           for (let index = 0; index < data.length; index++) {
             let widgetData = JSON.stringify(data[index]);
-            content_.append('widget'+index, widgetData );            
+            content_.append(templateId + '_widget'+index, widgetData );            
           }
         }
         let options_ : any = {

@@ -49,13 +49,15 @@ export class AppTemplateComponent {
       widget.parameters.map(para => {
         if(para['fileData']){
           fileData = para['fileData'];
+          console.log(fileData);
+          
         }
         return (  {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')      }
       )})
     ));
 
     console.log(array);
-    this.widgetService.saveWidget(fileData, array).subscribe(result => {
+    this.widgetService.saveWidget(fileData, array,this.templateId).subscribe(result => {
 
     });
    //this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});

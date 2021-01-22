@@ -140,7 +140,7 @@ export class ComponentClient implements IComponentClient {
 
 export interface IDocumentClient {
     createDocument(): Observable<DocTemplateDto>;
-    saveExcelDocument(_documentDTO: DocumentDTO): Observable<DocumentDTO>;
+    saveExcelDocument(_formCollection: KeyValuePairOfStringAndStringValues[] | null | undefined): Observable<number>;
     getDocument(id: number): Observable<DocumentVM>;
 }
 
@@ -205,18 +205,21 @@ export class DocumentClient implements IDocumentClient {
         return _observableOf<DocTemplateDto>(<any>null);
     }
 
-    saveExcelDocument(_documentDTO: DocumentDTO): Observable<DocumentDTO> {
-        let url_ = this.baseUrl + "/api/Document";
+    saveExcelDocument(_formCollection: KeyValuePairOfStringAndStringValues[] | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/Document?";
+        if (_formCollection !== undefined && _formCollection !== null)
+            _formCollection && _formCollection.forEach((item, index) => {
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "_formCollection[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(_documentDTO);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -228,14 +231,14 @@ export class DocumentClient implements IDocumentClient {
                 try {
                     return this.processSaveExcelDocument(<any>response_);
                 } catch (e) {
-                    return <Observable<DocumentDTO>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<DocumentDTO>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processSaveExcelDocument(response: HttpResponseBase): Observable<DocumentDTO> {
+    protected processSaveExcelDocument(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -246,7 +249,7 @@ export class DocumentClient implements IDocumentClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = DocumentDTO.fromJS(resultData200);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -254,7 +257,7 @@ export class DocumentClient implements IDocumentClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<DocumentDTO>(<any>null);
+        return _observableOf<number>(<any>null);
     }
 
     getDocument(id: number): Observable<DocumentVM> {
@@ -1659,17 +1662,11 @@ export interface IDocumentParameterDTO {
     createdDate?: Date;
 }
 
-export class DocumentDTO implements IDocumentDTO {
-    id?: number;
-    title?: string | undefined;
-    docTemplateId?: number;
-    active?: boolean;
-    createdDate?: Date;
-    modifiedDate?: Date;
-    docTemplateDTO?: DocTemplateDto | undefined;
-    parameters?: DocumentParameterDTO[] | undefined;
+export class KeyValuePairOfStringAndStringValues implements IKeyValuePairOfStringAndStringValues {
+    key?: string;
+    value?: string[];
 
-    constructor(data?: IDocumentDTO) {
+    constructor(data?: IKeyValuePairOfStringAndStringValues) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1680,55 +1677,37 @@ export class DocumentDTO implements IDocumentDTO {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
-            this.title = _data["title"];
-            this.docTemplateId = _data["docTemplateId"];
-            this.active = _data["active"];
-            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
-            this.modifiedDate = _data["modifiedDate"] ? new Date(_data["modifiedDate"].toString()) : <any>undefined;
-            this.docTemplateDTO = _data["docTemplateDTO"] ? DocTemplateDto.fromJS(_data["docTemplateDTO"]) : <any>undefined;
-            if (Array.isArray(_data["parameters"])) {
-                this.parameters = [] as any;
-                for (let item of _data["parameters"])
-                    this.parameters!.push(DocumentParameterDTO.fromJS(item));
+            this.key = _data["key"];
+            if (Array.isArray(_data["value"])) {
+                this.value = [] as any;
+                for (let item of _data["value"])
+                    this.value!.push(item);
             }
         }
     }
 
-    static fromJS(data: any): DocumentDTO {
+    static fromJS(data: any): KeyValuePairOfStringAndStringValues {
         data = typeof data === 'object' ? data : {};
-        let result = new DocumentDTO();
+        let result = new KeyValuePairOfStringAndStringValues();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["title"] = this.title;
-        data["docTemplateId"] = this.docTemplateId;
-        data["active"] = this.active;
-        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
-        data["modifiedDate"] = this.modifiedDate ? this.modifiedDate.toISOString() : <any>undefined;
-        data["docTemplateDTO"] = this.docTemplateDTO ? this.docTemplateDTO.toJSON() : <any>undefined;
-        if (Array.isArray(this.parameters)) {
-            data["parameters"] = [];
-            for (let item of this.parameters)
-                data["parameters"].push(item.toJSON());
+        data["key"] = this.key;
+        if (Array.isArray(this.value)) {
+            data["value"] = [];
+            for (let item of this.value)
+                data["value"].push(item);
         }
         return data; 
     }
 }
 
-export interface IDocumentDTO {
-    id?: number;
-    title?: string | undefined;
-    docTemplateId?: number;
-    active?: boolean;
-    createdDate?: Date;
-    modifiedDate?: Date;
-    docTemplateDTO?: DocTemplateDto | undefined;
-    parameters?: DocumentParameterDTO[] | undefined;
+export interface IKeyValuePairOfStringAndStringValues {
+    key?: string;
+    value?: string[];
 }
 
 export class HistoryGridData implements IHistoryGridData {
