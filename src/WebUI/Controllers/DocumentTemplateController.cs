@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DKP.InvestmentReview.Application.DocTemplates.Queries;
-using System.Collections.Generic;
 
 namespace DKP.InvestmentReview.WebUI.Controllers
 {
