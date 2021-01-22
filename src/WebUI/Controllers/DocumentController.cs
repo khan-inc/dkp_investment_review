@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using DKP.InvestmentReview.Application.Document.Commands.saveExcel;
+using System;
+using System.Collections.Generic;
 
 
 namespace DKP.InvestmentReview.WebUI.Controllers
@@ -40,6 +43,28 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DocumentVM>> GetDocument(int id){
             return await Mediator.Send(new GetDocumentQuery(){DocumentId = id});
+        }
+
+        public async Task<ActionResult<DocumentDTO>> saveExcelDocument(DocumentDTO _documentDTO)
+        {
+            var _parameters = new List<DocumentParameterDTO>();
+            foreach (var item in _documentDTO.Parameters)
+            {
+                _parameters.Add(new DocumentParameterDTO{
+                        DocumentId = _documentDTO.Id,
+                        WidgetParameterId = item.WidgetParameterId,
+                        Value = item.Value,
+                        CreatedDate = DateTime.Now  
+                });
+            }
+            return await Mediator.Send(new SaveExcelDocumentTemplateQuery(){
+                Title = _documentDTO.Title,
+                DocTemplateId = _documentDTO.DocTemplateId,
+                Active = _documentDTO.Active,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                Parameters = _parameters
+            });
         }
 
     }

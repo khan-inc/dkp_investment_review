@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace DKP.InvestmentReview.Application.DocTemplates.Queries
 {
-    public class pptLinkTemplateDTO : IMapFrom<pptLinkTemplate>{
+    public class pptLinkTemplateDTO : IMapFrom<DocTemplate>{
         public int Id { get; set; }
         public string Name { get; set; }
-        public string URL { get; set; }
     }
 }

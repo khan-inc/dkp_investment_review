@@ -1,9 +1,8 @@
 <div ngbDropdown class="d-inline-block">
-    <button class="btn DocGen-btn-primary" id="ddlCreatePPT" ngbDropdownToggle>Create PPT</button>
+    <button class="btn doc-gen-btn-primary" id="ddlCreatePPT" ngbDropdownToggle>Create PPT</button>
     <ul ngbDropdownMenu aria-labelledby="ddlCreatePPT">
       <li *ngFor="let link of lstOfPPTtemplates">
         <a class="create-ppt-link" ngbDropdownItem (click)="CreatePPTClick(link.id, $event)" href="#">{{link.name}}</a>
-        <!-- <button class="create-ppt-link" ngbDropdownItem (click)="CreatePPTClick(link.id, $event)" >{{link.id}} - {{link.name}}</button> -->
       </li>
     </ul>
   </div>

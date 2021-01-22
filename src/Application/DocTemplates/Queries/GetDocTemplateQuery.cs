@@ -57,13 +57,8 @@ namespace DKP.InvestmentReview.Application.DocTemplates.Queries
 
         public Task<List<pptLinkTemplateDTO>> Handle(GetPPTTemplateQuery request, CancellationToken cancellationToken)
         {
-            var returnList = new List<pptLinkTemplateDTO>();
-            var pptTemplate = _context.PPTTemplates.ToList();
-            foreach (var item in pptTemplate)
-            {
-                returnList.Add(_mapper.Map<pptLinkTemplateDTO>(item));
-            }
-            return Task.FromResult(returnList.OrderBy(x=>x.Id).ToList());
+            var pptTemplate = _context.DocTemplates.ToList();
+            return Task.FromResult(_mapper.Map<List<pptLinkTemplateDTO>>(pptTemplate).OrderBy(x=>x.Id).ToList());
         }        
     }
 }
