@@ -138,6 +138,219 @@ export class ComponentClient implements IComponentClient {
     }
 }
 
+export interface IDocumentClient {
+    createDocument(): Observable<DocTemplateDto>;
+    excelToImageServiceController(service: IExcelToImageService): Observable<void>;
+    convertExcelToImage(fileName: string | null | undefined, nameRange: string | null | undefined): Observable<void>;
+    convertExcelToImage2(fileName: string | null | undefined, nameRange: string | null | undefined): Observable<void>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentClient implements IDocumentClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    createDocument(): Observable<DocTemplateDto> {
+        let url_ = this.baseUrl + "/api/Document";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateDocument(<any>response_);
+                } catch (e) {
+                    return <Observable<DocTemplateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DocTemplateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateDocument(response: HttpResponseBase): Observable<DocTemplateDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocTemplateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DocTemplateDto>(<any>null);
+    }
+
+    excelToImageServiceController(service: IExcelToImageService): Observable<void> {
+        let url_ = this.baseUrl + "/api/Document";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(service);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processExcelToImageServiceController(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processExcelToImageServiceController(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processExcelToImageServiceController(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    convertExcelToImage(fileName: string | null | undefined, nameRange: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Document/ConvertExcelToImage?";
+        if (fileName !== undefined && fileName !== null)
+            url_ += "fileName=" + encodeURIComponent("" + fileName) + "&";
+        if (nameRange !== undefined && nameRange !== null)
+            url_ += "nameRange=" + encodeURIComponent("" + nameRange) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConvertExcelToImage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConvertExcelToImage(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processConvertExcelToImage(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    convertExcelToImage2(fileName: string | null | undefined, nameRange: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Document/api/ExcelToImageService/ConvertExcelToImage?";
+        if (fileName !== undefined && fileName !== null)
+            url_ += "fileName=" + encodeURIComponent("" + fileName) + "&";
+        if (nameRange !== undefined && nameRange !== null)
+            url_ += "nameRange=" + encodeURIComponent("" + nameRange) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConvertExcelToImage2(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConvertExcelToImage2(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processConvertExcelToImage2(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
 export interface IDocumentHistoryGridServiceClient {
     getDocumentHistoryGridDetails(): Observable<HistoryGridData[]>;
 }
@@ -1095,50 +1308,6 @@ export enum ComponentsEnum {
     CapitalStack = "CapitalStack",
 }
 
-export class HistoryGridData implements IHistoryGridData {
-    title?: string | undefined;
-    template?: string | undefined;
-    date?: string | undefined;
-
-    constructor(data?: IHistoryGridData) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.title = _data["title"];
-            this.template = _data["template"];
-            this.date = _data["date"];
-        }
-    }
-
-    static fromJS(data: any): HistoryGridData {
-        data = typeof data === 'object' ? data : {};
-        let result = new HistoryGridData();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
-        data["template"] = this.template;
-        data["date"] = this.date;
-        return data; 
-    }
-}
-
-export interface IHistoryGridData {
-    title?: string | undefined;
-    template?: string | undefined;
-    date?: string | undefined;
-}
-
 export class DocTemplateDto implements IDocTemplateDto {
     id?: number;
     name?: string | undefined;
@@ -1304,6 +1473,78 @@ export enum ParameterType {
     Number = "Number",
     File = "File",
     Date = "Date",
+}
+
+export abstract class IExcelToImageService implements IIExcelToImageService {
+
+    constructor(data?: IIExcelToImageService) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): IExcelToImageService {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'IExcelToImageService' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IIExcelToImageService {
+}
+
+export class HistoryGridData implements IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
+
+    constructor(data?: IHistoryGridData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.template = _data["template"];
+            this.date = _data["date"];
+        }
+    }
+
+    static fromJS(data: any): HistoryGridData {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoryGridData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["template"] = this.template;
+        data["date"] = this.date;
+        return data; 
+    }
+}
+
+export interface IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
