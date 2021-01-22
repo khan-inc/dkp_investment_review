@@ -23,6 +23,7 @@ import { DocumentTemplateComponent } from './document-tempate/documentTemplate.c
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
 import { AlertModule } from 'ngx-bootstrap';
+import { WidgetService } from './service/widget.service';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AlertModule } from 'ngx-bootstrap';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    WidgetService
   ],
   bootstrap: [AppComponent]
 })

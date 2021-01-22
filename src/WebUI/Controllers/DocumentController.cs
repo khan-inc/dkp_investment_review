@@ -5,17 +5,22 @@ using DKP.InvestmentReview.Application.Document.Queries;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+
 
 namespace DKP.InvestmentReview.WebUI.Controllers
 {
     public class DocumentController : ApiController{
 
-        [Route("Upload")]
+        
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
-        {
+        public async Task<ActionResult<DocTemplateDto>> CreateDocument(){
             var formCollection = await Request.ReadFormAsync();
+            // Step 1: Save document record in database           
+            // Step 2: Save Excel file in file system//////////////
             var fileData = formCollection.Files.First();
+
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "Files");
             if (fileData.Length > 0)
             {
@@ -25,15 +30,9 @@ namespace DKP.InvestmentReview.WebUI.Controllers
                 {
                     fileData.CopyTo(stream);
                 }
-                return Ok();
+               
             }
-            return BadRequest();
-        }
-
-        [HttpPost]
-        public Task<ActionResult<DocTemplateDto>> CreateDocument(){
-            // Step 1: Save document record in database
-            // Step 2: Save Excel file in file system
+            /////////////////////////////////////////////////////////
             // Step 3: Process Excel file to generate the image
             return null;
         }
@@ -43,10 +42,5 @@ namespace DKP.InvestmentReview.WebUI.Controllers
             return await Mediator.Send(new GetDocumentQuery(){DocumentId = id});
         }
 
-        [HttpGet("{docId}")]
-        public async Task<ActionResult<DocumentDTO>> GetDocumentDTO(int docId)
-        {
-            return null;
-        }
     }
 }

@@ -78,43 +78,6 @@
         }
       }
     },
-    "/api/Document/Upload": {
-      "post": {
-        "tags": [
-          "Document"
-        ],
-        "operationId": "Document_UploadFile",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary",
-                    "nullable": true
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Document": {
       "post": {
         "tags": [
@@ -160,38 +123,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DocumentVM"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Document/{docId}": {
-      "get": {
-        "tags": [
-          "Document"
-        ],
-        "operationId": "Document_GetDocumentDTO",
-        "parameters": [
-          {
-            "name": "docId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocumentDTO"
                 }
               }
             }
@@ -940,31 +871,6 @@
           "value": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "DocumentDTO": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "docTemplateDTO": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/DocTemplateDto"
-              }
-            ]
-          },
-          "parameters": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/DocumentParameterDTO"
-            }
           }
         }
       },
