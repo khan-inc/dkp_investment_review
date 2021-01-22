@@ -42,5 +42,11 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         public async Task<ActionResult<DocumentVM>> GetDocument(int id){
             return await Mediator.Send(new GetDocumentQuery(){DocumentId = id});
         }
+
+        [HttpGet("{docId}")]
+        public async Task<ActionResult<DocumentDTO>> GetDocumentDTO(int docId)
+        {
+            return null;
+        }
     }
 }
