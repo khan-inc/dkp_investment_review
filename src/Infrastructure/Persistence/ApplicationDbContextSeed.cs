@@ -74,6 +74,30 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
                     
                 await context.SaveChangesAsync();
             }
+
+            if (!context.Documents.Any())
+            {
+                context.Documents.Add(new Document(){
+                    DocTemplateId = 1,
+                    Active = false,
+                    Parameters = {
+                        new DocumentParameter(){
+                            WidgetParameterId = 1,
+                            Value = "FY 2020 Report"
+                        },
+                        new DocumentParameter(){
+                            WidgetParameterId = 2,
+                            Value = "Some Footer Text"
+                        },
+                        new DocumentParameter(){
+                            WidgetParameterId = 3,
+                            Value = "File.xlsx"
+                        }
+                    }
+                });
+                
+                await context.SaveChangesAsync();
+            }
         }
 
         private static WidgetTemplate GetHeaderWidget(){

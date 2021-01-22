@@ -24,6 +24,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreatePPTComponent } from './create-ppt/create-ppt.component';
+import { AlertModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { CreatePPTComponent } from './create-ppt/create-ppt.component';
       { path: 'apptemplateview', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
-    ModalModule.forRoot(), NgbModule
+    ModalModule.forRoot(), NgbModule,
+    AlertModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

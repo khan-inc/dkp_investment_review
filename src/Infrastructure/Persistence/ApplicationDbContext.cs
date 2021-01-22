@@ -32,12 +32,10 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
         }
 
         public DbSet<TodoItem> TodoItems { get; set; }
-
         public DbSet<TodoList> TodoLists { get; set; }
-
         public DbSet<DocTemplate> DocTemplates { get; set; }
-
-        public DbSet<pptLinkTemplate> PPTTemplates { get; set; }
+        public DbSet<DocTemplate> PPTTemplates { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

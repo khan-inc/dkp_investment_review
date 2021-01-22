@@ -138,6 +138,176 @@ export class ComponentClient implements IComponentClient {
     }
 }
 
+export interface IDocumentClient {
+    uploadFile(file: FileParameter | null | undefined): Observable<FileResponse>;
+    createDocument(): Observable<DocTemplateDto>;
+    getDocument(id: number): Observable<DocumentVM>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DocumentClient implements IDocumentClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    uploadFile(file: FileParameter | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Document/Upload";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUploadFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUploadFile(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUploadFile(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    createDocument(): Observable<DocTemplateDto> {
+        let url_ = this.baseUrl + "/api/Document";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateDocument(<any>response_);
+                } catch (e) {
+                    return <Observable<DocTemplateDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DocTemplateDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateDocument(response: HttpResponseBase): Observable<DocTemplateDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocTemplateDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DocTemplateDto>(<any>null);
+    }
+
+    getDocument(id: number): Observable<DocumentVM> {
+        let url_ = this.baseUrl + "/api/Document/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDocument(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDocument(<any>response_);
+                } catch (e) {
+                    return <Observable<DocumentVM>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DocumentVM>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDocument(response: HttpResponseBase): Observable<DocumentVM> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DocumentVM.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DocumentVM>(<any>null);
+    }
+}
+
 export interface IDocumentHistoryGridServiceClient {
     getDocumentHistoryGridDetails(): Observable<HistoryGridData[]>;
 }
@@ -210,7 +380,6 @@ export class DocumentHistoryGridServiceClient implements IDocumentHistoryGridSer
 
 export interface IDocumentTemplateClient {
     getDocument(id: number): Observable<DocTemplateDto>;
-    getPPTTemplate(): Observable<PptLinkTemplateDTO[]>;
 }
 
 @Injectable({
@@ -276,57 +445,74 @@ export class DocumentTemplateClient implements IDocumentTemplateClient {
         }
         return _observableOf<DocTemplateDto>(<any>null);
     }
+}
 
-    getPPTTemplate(): Observable<PptLinkTemplateDTO[]> {
-        let url_ = this.baseUrl + "/api/DocumentTemplate";
+export interface IExcelWidgetClient {
+    uploadFile(formData: FileParameter | null | undefined): Observable<FileResponse>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ExcelWidgetClient implements IExcelWidgetClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    uploadFile(formData: FileParameter | null | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/ExcelWidget";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = new FormData();
+        if (formData !== null && formData !== undefined)
+            content_.append("formData", formData.data, formData.fileName ? formData.fileName : "formData");
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Accept": "application/octet-stream"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetPPTTemplate(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUploadFile(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetPPTTemplate(<any>response_);
+                    return this.processUploadFile(<any>response_);
                 } catch (e) {
-                    return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(e);
+                    return <Observable<FileResponse>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(response_);
+                return <Observable<FileResponse>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetPPTTemplate(response: HttpResponseBase): Observable<PptLinkTemplateDTO[]> {
+    protected processUploadFile(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(PptLinkTemplateDTO.fromJS(item));
-            }
-            return _observableOf(result200);
-            }));
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PptLinkTemplateDTO[]>(<any>null);
+        return _observableOf<FileResponse>(<any>null);
     }
 }
 
@@ -1148,50 +1334,6 @@ export enum ComponentsEnum {
     CapitalStack = "CapitalStack",
 }
 
-export class HistoryGridData implements IHistoryGridData {
-    title?: string | undefined;
-    template?: string | undefined;
-    date?: string | undefined;
-
-    constructor(data?: IHistoryGridData) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.title = _data["title"];
-            this.template = _data["template"];
-            this.date = _data["date"];
-        }
-    }
-
-    static fromJS(data: any): HistoryGridData {
-        data = typeof data === 'object' ? data : {};
-        let result = new HistoryGridData();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
-        data["template"] = this.template;
-        data["date"] = this.date;
-        return data; 
-    }
-}
-
-export interface IHistoryGridData {
-    title?: string | undefined;
-    template?: string | undefined;
-    date?: string | undefined;
-}
-
 export class DocTemplateDto implements IDocTemplateDto {
     id?: number;
     name?: string | undefined;
@@ -1359,12 +1501,60 @@ export enum ParameterType {
     Date = "Date",
 }
 
-export class PptLinkTemplateDTO implements IPptLinkTemplateDTO {
-    id?: number;
-    name?: string | undefined;
-    url?: string | undefined;
+export class DocumentVM implements IDocumentVM {
+    docTemplateDTO?: DocTemplateDto | undefined;
+    documentParameters?: DocumentParameterDTO[] | undefined;
 
-    constructor(data?: IPptLinkTemplateDTO) {
+    constructor(data?: IDocumentVM) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.docTemplateDTO = _data["docTemplateDTO"] ? DocTemplateDto.fromJS(_data["docTemplateDTO"]) : <any>undefined;
+            if (Array.isArray(_data["documentParameters"])) {
+                this.documentParameters = [] as any;
+                for (let item of _data["documentParameters"])
+                    this.documentParameters!.push(DocumentParameterDTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DocumentVM {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentVM();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docTemplateDTO"] = this.docTemplateDTO ? this.docTemplateDTO.toJSON() : <any>undefined;
+        if (Array.isArray(this.documentParameters)) {
+            data["documentParameters"] = [];
+            for (let item of this.documentParameters)
+                data["documentParameters"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDocumentVM {
+    docTemplateDTO?: DocTemplateDto | undefined;
+    documentParameters?: DocumentParameterDTO[] | undefined;
+}
+
+export class DocumentParameterDTO implements IDocumentParameterDTO {
+    id?: number;
+    widgetPArameterId?: number;
+    value?: string | undefined;
+
+    constructor(data?: IDocumentParameterDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1376,14 +1566,14 @@ export class PptLinkTemplateDTO implements IPptLinkTemplateDTO {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.name = _data["name"];
-            this.url = _data["url"];
+            this.widgetPArameterId = _data["widgetPArameterId"];
+            this.value = _data["value"];
         }
     }
 
-    static fromJS(data: any): PptLinkTemplateDTO {
+    static fromJS(data: any): DocumentParameterDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new PptLinkTemplateDTO();
+        let result = new DocumentParameterDTO();
         result.init(data);
         return result;
     }
@@ -1391,16 +1581,60 @@ export class PptLinkTemplateDTO implements IPptLinkTemplateDTO {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["name"] = this.name;
-        data["url"] = this.url;
+        data["widgetPArameterId"] = this.widgetPArameterId;
+        data["value"] = this.value;
         return data; 
     }
 }
 
-export interface IPptLinkTemplateDTO {
+export interface IDocumentParameterDTO {
     id?: number;
-    name?: string | undefined;
-    url?: string | undefined;
+    widgetPArameterId?: number;
+    value?: string | undefined;
+}
+
+export class HistoryGridData implements IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
+
+    constructor(data?: IHistoryGridData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.title = _data["title"];
+            this.template = _data["template"];
+            this.date = _data["date"];
+        }
+    }
+
+    static fromJS(data: any): HistoryGridData {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoryGridData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title;
+        data["template"] = this.template;
+        data["date"] = this.date;
+        return data; 
+    }
+}
+
+export interface IHistoryGridData {
+    title?: string | undefined;
+    template?: string | undefined;
+    date?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {
@@ -1932,6 +2166,11 @@ export interface IWeatherForecast {
     temperatureC?: number;
     temperatureF?: number;
     summary?: string | undefined;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export interface FileResponse {

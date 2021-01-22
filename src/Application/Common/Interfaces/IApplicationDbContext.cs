@@ -14,6 +14,7 @@ namespace DKP.InvestmentReview.Application.Common.Interfaces
         public DbSet<DocTemplate> DocTemplates { get; set; }
 
         public DbSet<pptLinkTemplate> PPTTemplates { get; set; }
+        public DbSet<DKP.InvestmentReview.Domain.Entities.Document> Documents { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

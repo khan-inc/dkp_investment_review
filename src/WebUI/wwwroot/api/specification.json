@@ -78,6 +78,95 @@
         }
       }
     },
+    "/api/Document/Upload": {
+      "post": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_UploadFile",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Document": {
+      "post": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_CreateDocument",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocTemplateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Document/{id}": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "Document_GetDocument",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/DocumentHistoryGridService": {
       "get": {
         "tags": [
@@ -133,22 +222,36 @@
         }
       }
     },
-    "/api/DocumentTemplate": {
-      "get": {
+    "/api/ExcelWidget": {
+      "post": {
         "tags": [
-          "DocumentTemplate"
+          "ExcelWidget"
         ],
-        "operationId": "DocumentTemplate_GetPPTTemplate",
+        "operationId": "ExcelWidget_UploadFile",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "formData": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PptLinkTemplateDTO"
-                  }
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -683,24 +786,6 @@
           "CapitalStack"
         ]
       },
-      "HistoryGridData": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "template": {
-            "type": "string",
-            "nullable": true
-          },
-          "date": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
       "DocTemplateDto": {
         "type": "object",
         "additionalProperties": false,
@@ -787,7 +872,28 @@
           "Date"
         ]
       },
-      "PptLinkTemplateDTO": {
+      "DocumentVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "docTemplateDTO": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DocTemplateDto"
+              }
+            ]
+          },
+          "documentParameters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DocumentParameterDTO"
+            }
+          }
+        }
+      },
+      "DocumentParameterDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -795,11 +901,29 @@
             "type": "integer",
             "format": "int32"
           },
-          "name": {
+          "widgetPArameterId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "HistoryGridData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
             "type": "string",
             "nullable": true
           },
-          "url": {
+          "template": {
+            "type": "string",
+            "nullable": true
+          },
+          "date": {
             "type": "string",
             "nullable": true
           }
