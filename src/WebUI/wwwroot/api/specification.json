@@ -106,7 +106,7 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
@@ -118,21 +118,31 @@
             }
           }
         }
-      }
-    },
-    "/api/Document": {
-      "post": {
+      },
+      "get": {
         "tags": [
           "Document"
         ],
-        "operationId": "Document_CreateDocument",
+        "operationId": "Document_saveExcelDocument",
+        "requestBody": {
+          "x-name": "_documentDTO",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DocTemplateDto"
+                  "$ref": "#/components/schemas/DocumentDTO"
                 }
               }
             }
@@ -295,6 +305,29 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DocTemplateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentTemplate": {
+      "get": {
+        "tags": [
+          "DocumentTemplate"
+        ],
+        "operationId": "DocumentTemplate_GetPPTTemplate",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PptLinkTemplateDTO"
+                  }
                 }
               }
             }
@@ -988,6 +1021,62 @@
           "value": {
             "type": "string",
             "nullable": true
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "widgetParameterId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DocumentDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "docTemplateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "docTemplateDTO": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DocTemplateDto"
+              }
+            ]
+          },
+          "parameters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DocumentParameterDTO"
+            }
           }
         }
       "IExcelToImageService": {
@@ -1008,6 +1097,20 @@
             "nullable": true
           },
           "date": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PptLinkTemplateDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
             "type": "string",
             "nullable": true
           }

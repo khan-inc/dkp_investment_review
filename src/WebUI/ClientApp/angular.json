@@ -25,11 +25,17 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/popper.js/dist/popper.js"
+              
+            ]
           },
           "configurations": {
             "production": {
@@ -60,7 +66,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "DKP.InvestmentReview.WebUI:build"
+            "browserTarget": "DKP.InvestmentReview.WebUI:build",
+            "open": true
           },
           "configurations": {
             "production": {
@@ -153,5 +160,8 @@
       }
     }
   },
-  "defaultProject": "DKP.InvestmentReview.WebUI"
+  "defaultProject": "DKP.InvestmentReview.WebUI",
+  "cli": {
+    "analytics": "f0dc0e23-2706-4c99-8546-0ea05b05f46a"
+  }
 }

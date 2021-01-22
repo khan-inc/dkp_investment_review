@@ -2,7 +2,8 @@ import { Component, ViewChild, ElementRef, ChangeDetectorRef ,Sanitizer, Securit
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Mustache from 'mustache';
-import { DocTemplateDto, DocumentClient, DocumentTemplateClient, WidgetDTO, WidgetParameterDTO } from '../web-api-client';
+import { WidgetService } from '../service/widget.service';
+import { DocTemplateDto, DocumentTemplateClient, WidgetDTO, WidgetParameterDTO } from '../web-api-client';
 
 @Component({
   selector: 'app-template-container',
@@ -21,8 +22,7 @@ export class AppTemplateComponent {
   public _documentClient: DocumentClient;
   public docTemplate: DocTemplateDto;
 
-  constructor(private route: ActivatedRoute, private router: Router, documentTemplateClient: DocumentTemplateClient,
-    documentClient: DocumentClient) {    
+  constructor(private route: ActivatedRoute, private router: Router, documentTemplateClient: DocumentTemplateClient, private widgetService: WidgetService) {    
       this._router = router;
     this._documentTemplateClient = documentTemplateClient;
     this._documentClient = documentClient;
@@ -58,6 +58,22 @@ export class AppTemplateComponent {
     //));
 
     //console.log(array);
+  onGenerate(){
+    console.log(this.docTemplate);
+    let fileData;
+    var array = this.docTemplate.widgets.map(widget => (
+      widget.parameters.map(para => {
+        if(para['fileData']){
+          fileData = para['fileData'];
+        }
+        return (  {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')      }
+      )})
+    ));
+
+    console.log(array);
+    this.widgetService.saveWidget(fileData, array).subscribe(result => {
+
+    });
    //this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});
   }
 }

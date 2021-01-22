@@ -139,8 +139,8 @@ export class ComponentClient implements IComponentClient {
 }
 
 export interface IDocumentClient {
-    uploadFile(file: FileParameter | null | undefined): Observable<FileResponse>;
     createDocument(): Observable<DocTemplateDto>;
+    saveExcelDocument(_documentDTO: DocumentDTO): Observable<DocumentDTO>;
     getDocument(id: number): Observable<DocumentVM>;
     createDocument(): Observable<DocTemplateDto>;
     excelToImageServiceController(service: IExcelToImageService): Observable<void>;
@@ -161,16 +161,11 @@ export class DocumentClient implements IDocumentClient {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    uploadFile(file: FileParameter | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/Document/Upload";
+    createDocument(): Observable<DocTemplateDto> {
+        let url_ = this.baseUrl + "/api/Document";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (file !== null && file !== undefined)
-            content_.append("file", file.data, file.fileName ? file.fileName : "file");
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -188,16 +183,16 @@ export class DocumentClient implements IDocumentClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUploadFile(response_);
+            return this.processCreateDocument(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUploadFile(<any>response_);
+                    return this.processCreateDocument(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<DocTemplateDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<DocTemplateDto>><any>_observableThrow(response_);
         }));
     }
 
@@ -239,32 +234,36 @@ export class DocumentClient implements IDocumentClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<DocTemplateDto>(<any>null);
     }
 
-    createDocument(): Observable<DocTemplateDto> {
+    saveExcelDocument(_documentDTO: DocumentDTO): Observable<DocumentDTO> {
         let url_ = this.baseUrl + "/api/Document";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(_documentDTO);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateDocument(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSaveExcelDocument(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateDocument(<any>response_);
+                    return this.processSaveExcelDocument(<any>response_);
                 } catch (e) {
-                    return <Observable<DocTemplateDto>><any>_observableThrow(e);
+                    return <Observable<DocumentDTO>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<DocTemplateDto>><any>_observableThrow(response_);
+                return <Observable<DocumentDTO>><any>_observableThrow(response_);
         }));
     }
 
@@ -302,6 +301,7 @@ export class DocumentClient implements IDocumentClient {
     }
 
     protected processExcelToImageServiceController(response: HttpResponseBase): Observable<void> {
+    protected processSaveExcelDocument(response: HttpResponseBase): Observable<DocumentDTO> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -312,7 +312,7 @@ export class DocumentClient implements IDocumentClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = DocTemplateDto.fromJS(resultData200);
+            result200 = DocumentDTO.fromJS(resultData200);
             return _observableOf(result200);
             return _observableOf<void>(<any>null);
             }));
@@ -321,7 +321,7 @@ export class DocumentClient implements IDocumentClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<DocTemplateDto>(<any>null);
+        return _observableOf<DocumentDTO>(<any>null);
     }
 
     getDocument(id: number): Observable<DocumentVM> {
@@ -521,6 +521,7 @@ export class DocumentHistoryGridServiceClient implements IDocumentHistoryGridSer
 
 export interface IDocumentTemplateClient {
     getDocument(id: number): Observable<DocTemplateDto>;
+    getPPTTemplate(): Observable<PptLinkTemplateDTO[]>;
 }
 
 @Injectable({
@@ -585,6 +586,58 @@ export class DocumentTemplateClient implements IDocumentTemplateClient {
             }));
         }
         return _observableOf<DocTemplateDto>(<any>null);
+    }
+
+    getPPTTemplate(): Observable<PptLinkTemplateDTO[]> {
+        let url_ = this.baseUrl + "/api/DocumentTemplate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPPTTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPPTTemplate(<any>response_);
+                } catch (e) {
+                    return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PptLinkTemplateDTO[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPPTTemplate(response: HttpResponseBase): Observable<PptLinkTemplateDTO[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PptLinkTemplateDTO.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PptLinkTemplateDTO[]>(<any>null);
     }
 }
 
@@ -1697,6 +1750,9 @@ export class DocumentParameterDTO implements IDocumentParameterDTO {
     id?: number;
     widgetPArameterId?: number;
     value?: string | undefined;
+    documentId?: number;
+    widgetParameterId?: number;
+    createdDate?: Date;
 
     constructor(data?: IDocumentParameterDTO) {
         if (data) {
@@ -1712,6 +1768,9 @@ export class DocumentParameterDTO implements IDocumentParameterDTO {
             this.id = _data["id"];
             this.widgetPArameterId = _data["widgetPArameterId"];
             this.value = _data["value"];
+            this.documentId = _data["documentId"];
+            this.widgetParameterId = _data["widgetParameterId"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
         }
     }
 
@@ -1732,6 +1791,9 @@ export class DocumentParameterDTO implements IDocumentParameterDTO {
         data["id"] = this.id;
         data["widgetPArameterId"] = this.widgetPArameterId;
         data["value"] = this.value;
+        data["documentId"] = this.documentId;
+        data["widgetParameterId"] = this.widgetParameterId;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
         return data; 
     }
 }
@@ -1741,6 +1803,81 @@ export interface IDocumentParameterDTO {
     widgetPArameterId?: number;
     value?: string | undefined;
 export interface IIExcelToImageService {
+    documentId?: number;
+    widgetParameterId?: number;
+    createdDate?: Date;
+}
+
+export class DocumentDTO implements IDocumentDTO {
+    id?: number;
+    title?: string | undefined;
+    docTemplateId?: number;
+    active?: boolean;
+    createdDate?: Date;
+    modifiedDate?: Date;
+    docTemplateDTO?: DocTemplateDto | undefined;
+    parameters?: DocumentParameterDTO[] | undefined;
+
+    constructor(data?: IDocumentDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.title = _data["title"];
+            this.docTemplateId = _data["docTemplateId"];
+            this.active = _data["active"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+            this.modifiedDate = _data["modifiedDate"] ? new Date(_data["modifiedDate"].toString()) : <any>undefined;
+            this.docTemplateDTO = _data["docTemplateDTO"] ? DocTemplateDto.fromJS(_data["docTemplateDTO"]) : <any>undefined;
+            if (Array.isArray(_data["parameters"])) {
+                this.parameters = [] as any;
+                for (let item of _data["parameters"])
+                    this.parameters!.push(DocumentParameterDTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DocumentDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["docTemplateId"] = this.docTemplateId;
+        data["active"] = this.active;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        data["modifiedDate"] = this.modifiedDate ? this.modifiedDate.toISOString() : <any>undefined;
+        data["docTemplateDTO"] = this.docTemplateDTO ? this.docTemplateDTO.toJSON() : <any>undefined;
+        if (Array.isArray(this.parameters)) {
+            data["parameters"] = [];
+            for (let item of this.parameters)
+                data["parameters"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDocumentDTO {
+    id?: number;
+    title?: string | undefined;
+    docTemplateId?: number;
+    active?: boolean;
+    createdDate?: Date;
+    modifiedDate?: Date;
+    docTemplateDTO?: DocTemplateDto | undefined;
+    parameters?: DocumentParameterDTO[] | undefined;
 }
 
 export class HistoryGridData implements IHistoryGridData {
@@ -1785,6 +1922,46 @@ export interface IHistoryGridData {
     title?: string | undefined;
     template?: string | undefined;
     date?: string | undefined;
+}
+
+export class PptLinkTemplateDTO implements IPptLinkTemplateDTO {
+    id?: number;
+    name?: string | undefined;
+
+    constructor(data?: IPptLinkTemplateDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): PptLinkTemplateDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new PptLinkTemplateDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IPptLinkTemplateDTO {
+    id?: number;
+    name?: string | undefined;
 }
 
 export class PaginatedListOfTodoItemDto implements IPaginatedListOfTodoItemDto {

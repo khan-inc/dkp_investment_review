@@ -22,7 +22,10 @@ import { ChartsModule } from 'ng2-charts';
 import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreatePPTComponent } from './create-ppt/create-ppt.component';
 import { AlertModule } from 'ngx-bootstrap';
+import { WidgetService } from './service/widget.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { AlertModule } from 'ngx-bootstrap';
     AppTemplateViewComponent,
     DocumentTemplateComponent,
     DashboardComponent,
-    DocumentHistoryGridComponent
+    DocumentHistoryGridComponent,
+    CreatePPTComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,11 +60,12 @@ import { AlertModule } from 'ngx-bootstrap';
       { path: 'apptemplateview', component: DocumentTemplateComponent }
     ]),
     BrowserAnimationsModule,    
-    ModalModule.forRoot(),
+    ModalModule.forRoot(), NgbModule,
     AlertModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    WidgetService
   ],
   bootstrap: [AppComponent]
 })

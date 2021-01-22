@@ -137,7 +137,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
                                 new WidgetParameter { Name = "From Cell", Type = Domain.Enums.ParameterType.Text},
                                 new WidgetParameter { Name = "To Cell", Type = Domain.Enums.ParameterType.Text}
                             }
-            };
-        }
+                        };
+                    }
     }
 }
