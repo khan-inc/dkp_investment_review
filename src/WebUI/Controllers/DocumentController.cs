@@ -5,12 +5,6 @@ using DKP.InvestmentReview.Application.Document.Queries;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using DKP.InvestmentReview.Application.Document.Commands.saveExcel;
-using System;
-using System.Collections.Generic;
-
 
 using DKP.InvestmentReview.Application.Common.Interfaces;
 
@@ -18,14 +12,12 @@ namespace DKP.InvestmentReview.WebUI.Controllers
 {
     public class DocumentController : ApiController{
 
-        
+        [Route("Upload")]
         [HttpPost]
-        public async Task<ActionResult<DocTemplateDto>> CreateDocument(){
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
             var formCollection = await Request.ReadFormAsync();
-            // Step 1: Save document record in database           
-            // Step 2: Save Excel file in file system//////////////
             var fileData = formCollection.Files.First();
-
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "Files");
             if (fileData.Length > 0)
             {
@@ -35,7 +27,7 @@ namespace DKP.InvestmentReview.WebUI.Controllers
                 {
                     fileData.CopyTo(stream);
                 }
-               
+                return Ok();
             }
             return BadRequest();
         private IExcelToImageService excelService;
@@ -47,7 +39,6 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         public Task<ActionResult<DocTemplateDto>> CreateDocument(){
             // Step 1: Save document record in database
             // Step 2: Save Excel file in file system
-            /////////////////////////////////////////////////////////
             // Step 3: Process Excel file to generate the image
 
 
@@ -77,28 +68,6 @@ namespace DKP.InvestmentReview.WebUI.Controllers
         //{
         //    excelService.ConvertExcelToImage(fileSourceExcelPath, worksheetName, frmCell, toCell, fileImageStorePath);
         //}
-
-        public async Task<ActionResult<DocumentDTO>> saveExcelDocument(DocumentDTO _documentDTO)
-        {
-            var _parameters = new List<DocumentParameterDTO>();
-            foreach (var item in _documentDTO.Parameters)
-            {
-                _parameters.Add(new DocumentParameterDTO{
-                        DocumentId = _documentDTO.Id,
-                        WidgetParameterId = item.WidgetParameterId,
-                        Value = item.Value,
-                        CreatedDate = DateTime.Now  
-                });
-            }
-            return await Mediator.Send(new SaveExcelDocumentTemplateQuery(){
-                Title = _documentDTO.Title,
-                DocTemplateId = _documentDTO.DocTemplateId,
-                Active = _documentDTO.Active,
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                Parameters = _parameters
-            });
-        }
 
     }
 }

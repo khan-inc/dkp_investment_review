@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DKP.InvestmentReview.Domain.Entities;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace DKP.InvestmentReview.Application.DocTemplates.Queries
 {
@@ -37,28 +35,5 @@ namespace DKP.InvestmentReview.Application.DocTemplates.Queries
             var docTemplateDto = _mapper.Map<DocTemplateDto>(docTemplate);
             return Task.FromResult(docTemplateDto);
         }
-    }
-
-    public class GetPPTTemplateQuery : IRequest<List<pptLinkTemplateDTO>>
-    {
-        public int DocumentTemplateId { get; set; }
-    }
-
-    public class GetPPTTemplateQueryHandler : IRequestHandler<GetPPTTemplateQuery, List<pptLinkTemplateDTO>>
-    {
-        private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
-
-        public GetPPTTemplateQueryHandler(IApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
-
-        public Task<List<pptLinkTemplateDTO>> Handle(GetPPTTemplateQuery request, CancellationToken cancellationToken)
-        {
-            var pptTemplate = _context.DocTemplates.ToList();
-            return Task.FromResult(_mapper.Map<List<pptLinkTemplateDTO>>(pptTemplate).OrderBy(x=>x.Id).ToList());
-        }        
     }
 }
