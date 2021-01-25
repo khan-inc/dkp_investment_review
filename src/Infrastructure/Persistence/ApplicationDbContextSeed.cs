@@ -136,9 +136,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
                             Name = "Excel",
                             Parameters = {
                                 new WidgetParameter { Name = "Filepath", Type = Domain.Enums.ParameterType.File, IsRequired = true},
-                                new WidgetParameter { Name = "Worksheet", Type = Domain.Enums.ParameterType.Text},
-                                new WidgetParameter { Name = "From Cell", Type = Domain.Enums.ParameterType.Text},
-                                new WidgetParameter { Name = "To Cell", Type = Domain.Enums.ParameterType.Text}
+                                new WidgetParameter { Name = "Named Range", Type = Domain.Enums.ParameterType.Text}
                             }
             };
         }

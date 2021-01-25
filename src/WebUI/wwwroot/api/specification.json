@@ -78,48 +78,6 @@
         }
       }
     },
-    "/api/Document/Upload": {
-    "/api/Document": {
-      "post": {
-        "tags": [
-          "Document"
-        ],
-        "operationId": "Document_UploadFile",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary",
-                    "nullable": true
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "Document_CreateDocument",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DocTemplateDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Document": {
       "post": {
         "tags": [
@@ -132,70 +90,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DocTemplateDto"
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
-      },
-      "get": {
-        "tags": [
-          "Document"
-        ],
-        "operationId": "Document_ExcelToImageServiceController",
-        "requestBody": {
-          "x-name": "service",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IExcelToImageService"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/Document/ConvertExcelToImage": {
-      "get": {
-        "tags": [
-          "Document"
-        ],
-        "operationId": "Document_ConvertExcelToImage",
-        "parameters": [
-          {
-            "name": "fileName",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "nameRange",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
           }
         }
       }
     },
     "/api/Document/{id}": {
-    "/api/Document/api/ExcelToImageService/ConvertExcelToImage": {
       "get": {
         "tags": [
           "Document"
@@ -211,25 +115,6 @@
               "format": "int32"
             },
             "x-position": 1
-        "operationId": "Document_ConvertExcelToImage2",
-        "parameters": [
-          {
-            "name": "fileName",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "nameRange",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
           }
         ],
         "responses": {
@@ -242,7 +127,6 @@
                 }
               }
             }
-            "description": ""
           }
         }
       }
@@ -295,6 +179,29 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DocTemplateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DocumentTemplate": {
+      "get": {
+        "tags": [
+          "DocumentTemplate"
+        ],
+        "operationId": "DocumentTemplate_Get",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DocTemplateListDTO"
+                  }
                 }
               }
             }
@@ -866,6 +773,27 @@
           "CapitalStack"
         ]
       },
+      "DocumentVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "docTemplateDTO": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DocTemplateDto"
+              }
+            ]
+          },
+          "documentParameters": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DocumentParameterDTO"
+            }
+          }
+        }
+      },
       "DocTemplateDto": {
         "type": "object",
         "additionalProperties": false,
@@ -952,27 +880,6 @@
           "Date"
         ]
       },
-      "DocumentVM": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "docTemplateDTO": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/DocTemplateDto"
-              }
-            ]
-          },
-          "documentParameters": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/DocumentParameterDTO"
-            }
-          }
-        }
-      },
       "DocumentParameterDTO": {
         "type": "object",
         "additionalProperties": false,
@@ -990,10 +897,6 @@
             "nullable": true
           }
         }
-      "IExcelToImageService": {
-        "type": "object",
-        "x-abstract": true,
-        "additionalProperties": false
       },
       "HistoryGridData": {
         "type": "object",
@@ -1008,6 +911,24 @@
             "nullable": true
           },
           "date": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "DocTemplateListDTO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           }

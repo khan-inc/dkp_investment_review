@@ -50,13 +50,11 @@ export class AppTemplateActionComponent {
     if(files.length <= 0){
       return;
     }
-    //const formData: FormData = new FormData();
     const fileData: any = {};
     fileData['data'] = files[0];
     fileData['fileName'] = files[0].name;
-    //formData.append('file', files[0], files[0].name);
-    this.documentClient.uploadFile(fileData).subscribe(result => {
-      this.uploadSuccess = true;
-    });
+    // this.documentClient.uploadFile(fileData).subscribe(result => {
+    //   this.uploadSuccess = true;
+    // });
   }
 }

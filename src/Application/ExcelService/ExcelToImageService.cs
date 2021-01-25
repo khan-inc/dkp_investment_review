@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 
 using DKP.InvestmentReview.Application.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace DKP.InvestmentReview.Application.ExcelService
 {
@@ -25,8 +26,8 @@ namespace DKP.InvestmentReview.Application.ExcelService
 
         public void ConvertExcelToImage(string fileName, string namedRange)
         {
-            string excelFilePath = _hostEnvironment.ContentRootPath + _configuration.GetValue<string>("ExcelPath") + "\\" + fileName;
-            string excelImageStoreFilePath = _hostEnvironment.WebRootPath + _configuration.GetValue<string>("ExcelImageStorePath");
+            string excelFilePath = Path.Combine(_hostEnvironment.ContentRootPath, _configuration.GetValue<string>("ExcelPath") + "\\" + fileName);
+            string excelImageStoreFilePath = Path.Combine(_hostEnvironment.WebRootPath, _configuration.GetValue<string>("ExcelImageStorePath"));
 
             SpreadsheetGear.IWorkbook workbook = null;
 
@@ -50,8 +51,8 @@ namespace DKP.InvestmentReview.Application.ExcelService
                     // if NameRange is passed, get the range of occupied cells
                     //areaRangeName = workbook.Names[namedRange].RefersToRange;
                     //worksheet = workbook.Names[namedRange].RefersToRange.Worksheet;
-                    areaRangeName = workbook.Names["CapitalStructure"].RefersToRange;
-                    worksheet = workbook.Names["CapitalStructure"].RefersToRange.Worksheet;
+                    areaRangeName = workbook.Names[namedRange].RefersToRange;
+                    worksheet = workbook.Names[namedRange].RefersToRange.Worksheet;
                     worksheet.WindowInfo.DisplayGridlines = false;
 
                     image = new SpreadsheetGear.Drawing.Image(areaRangeName);
@@ -70,13 +71,15 @@ namespace DKP.InvestmentReview.Application.ExcelService
                 {
                     Graphics graphics = Graphics.FromImage(bitmap);
 
-                    string[] fileExcelImage = fileName.Split('/'); // 1/ExampleExcelData_2.xlsx
-                    fileName = fileExcelImage[1].Substring(0, (fileExcelImage[1].Length - 5));
+                    //string[] fileExcelImage = fileName.Split('/'); // 1/ExampleExcelData_2.xlsx
+                    //fileName = fileExcelImage[1].Substring(0, (fileExcelImage[1].Length - 5));
+
+                    var imageFileName = fileName.Substring(0, fileName.LastIndexOf("."));
 
                     graphics.CompositingQuality = CompositingQuality.HighSpeed;
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     graphics.CompositingMode = CompositingMode.SourceCopy;
-                    bitmap.Save(excelImageStoreFilePath + "\\" + fileName + ".bmp", ImageFormat.Bmp);
+                    bitmap.Save(Path.Combine(excelImageStoreFilePath, $"{imageFileName}.jpeg"), ImageFormat.Bmp);
                 }
             }
             catch (Exception ex)

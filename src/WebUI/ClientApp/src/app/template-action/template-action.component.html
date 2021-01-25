@@ -1,15 +1,4 @@
 <div class="parameter-section">
-  <!-- <div *ngFor="let input of inputPara">
-    <div class="form-group">
-      <label [for]='input.name'>{{input.title}}</label>
-      <input [type]='input.type'
-             class="form-control"
-             [name]='input.name'
-             [placeholder]='input.placeholder'
-             [(ngModel)]='input.value'>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary" (click)="onClickGenerate()">Generate</button> -->
   <div class='para-heading'>Parameters</div>
   <div *ngIf="widgetParams">
     <div *ngFor="let input of widgetParams">
@@ -20,10 +9,6 @@
              [(ngModel)]='input.parameterVal'
              (change)="fileAdded(input, inputControl.files)"
              >
-      <button class="btn btn-primary" *ngIf="input.type === 'File'" [disabled]="!input.fileData" (click)="uploadFile(inputControl.files)">Upload</button>
-      <div *ngIf="uploadSuccess && input.type === 'File'">
-        <alert type="success">File Uploaded Succssfully!</alert>
-      </div>
     </div>
   </div>
 </div>

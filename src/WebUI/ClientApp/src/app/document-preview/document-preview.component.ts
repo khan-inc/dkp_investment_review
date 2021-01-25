@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DocumentClient, DocumentParameterDTO, DocumentVM, WidgetDTO } from '../web-api-client';
 
 @Component({
@@ -10,21 +11,26 @@ export class DocumentPreviewComponent implements OnInit {
 
   result: string;
   docTitle: string;
-  _documentClient: DocumentClient;
   headerText: string = '';
   footerText: string = '';
   contentWidgets: WidgetDTO[] = [];
   contentDivs: string[];
   documentParameters: DocumentParameterDTO[];
   templateId: number;
+  documentId: number
 
-  constructor(private documentClient : DocumentClient) { 
-    this._documentClient = documentClient;
-
+  constructor(private documentClient : DocumentClient, private route: ActivatedRoute) { 
   }
 
   ngOnInit(): void {
-    this._documentClient.getDocument(1).subscribe(data => this.renderWidget(data));
+    this.route
+      .queryParams
+      .subscribe(params => {
+        this.documentId = parseInt(params['id']);
+        if(!isNaN(this.documentId)){
+          this.documentClient.getDocument(this.documentId).subscribe(data => this.renderWidget(data));
+        }
+      });
   }
 
   OnExport(){
@@ -32,6 +38,7 @@ export class DocumentPreviewComponent implements OnInit {
   }
 
   renderWidget(documentVM : DocumentVM){
+    console.log(documentVM);
     this.templateId = documentVM.docTemplateDTO.id;
     this.documentParameters = documentVM.documentParameters;
 
@@ -58,10 +65,9 @@ export class DocumentPreviewComponent implements OnInit {
       let docPara = this.documentParameters.find(p => p.widgetPArameterId == cp);
       if(docPara){
         console.log('docPara.value',docPara.value);
-        let filePath = this.templateId + '/' + docPara.value.replace('.xlsx', '.jpeg');
-        return `<div><img src="/WidgetImages/Excel/${filePath}" hieght="auto" width="100%" style="width: 100%"></img></div>`
+        //let filePath = this.templateId + '/' + docPara.value.replace('.xlsx', '.jpeg');
+        return `<div><img src="/Files/ExcelImageFiles/${docPara.id}.jpeg" hieght="auto" width="100%" style="width: 100%"></img></div>`
       }
-
       return '';
     });
     

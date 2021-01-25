@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, ChangeDetectorRef ,Sanitizer, Securit
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Mustache from 'mustache';
+import { WidgetService } from '../service/widget.service';
 import { DocTemplateDto, DocumentClient, DocumentTemplateClient, WidgetDTO, WidgetParameterDTO } from '../web-api-client';
 
 @Component({
@@ -22,7 +23,7 @@ export class AppTemplateComponent {
   public docTemplate: DocTemplateDto;
 
   constructor(private route: ActivatedRoute, private router: Router, documentTemplateClient: DocumentTemplateClient,
-    documentClient: DocumentClient) {    
+    documentClient: DocumentClient, private widgetService: WidgetService) {    
       this._router = router;
     this._documentTemplateClient = documentTemplateClient;
     this._documentClient = documentClient;
@@ -44,20 +45,23 @@ export class AppTemplateComponent {
     this.selectedWidgetParameters = e.parameters;
   }
 
-  onGenerate() {
+  onGenerate() {    
+    console.log(this.docTemplate);
+    let fileData;
+    let fileParameterId;
+    var array = this.docTemplate.widgets.map(widget => (
+      widget.parameters.map(para => {
+        if(para['fileData']){
+          fileData = para['fileData'];
+          fileParameterId = para.id;
+        }
+        return (  {WidgetParameterId: para.id, WidgetParameterName: para.name, Value : (para["parameterVal"] || '')      }
+      )})
+    ));
 
-    console.log("Entering into Application", this._documentClient);
-    this._documentClient.createDocument().subscribe();
-
-    //console.log(this.docTemplate);
-
-    //var array = this.docTemplate.widgets.map(widget => (
-    //  widget.parameters.map(para => (
-    //    {ParameterId: para.id, ParameterValue: (para["parameterVal"] || '')
-    //  }))
-    //));
-
-    //console.log(array);
-   //this._router.navigate(['/apptemplateview'], {state:{data: this.docTemplate}});
+    this.widgetService.saveWidget(fileData, array, this.docTemplate.id, fileParameterId).subscribe(result => {
+      console.log("Document Result", result);
+      this._router.navigateByUrl(`/documentPreview?id=${result}`);
+    });
   }
 }
