@@ -22,6 +22,10 @@ import { ChartsModule } from 'ng2-charts';
 import { DocumentTemplateComponent } from './document-tempate/documentTemplate.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHistoryGrid.component';
+import { AlertModule } from 'ngx-bootstrap';
+// import { WidgetService } from './service/widget.service';
+import { DocumentPreviewComponent } from './document-preview/document-preview.component';
+import { DocumentTemplateListComponent } from './document-template-list/document-template-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,10 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
     AppTemplateViewComponent,
     DocumentTemplateComponent,
     DashboardComponent,
-    DocumentHistoryGridComponent
+    DocumentHistoryGridComponent,
+    DocumentPreviewComponent,
+    DocumentTemplateListComponent,
+    DocumentHistoryGridComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,12 +57,13 @@ import { DocumentHistoryGridComponent } from './documentHistoryGrid/documentHist
       { path: 'Home', component: HomeComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
+      { path: 'todo', component: TodoComponent },
       { path: 'apptemplate', component: AppTemplateComponent },
-      { path: 'apptemplateview', component: DocumentTemplateComponent }
+      { path: 'documentPreview', component: DocumentPreviewComponent }
     ]),
     BrowserAnimationsModule,    
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

@@ -46,6 +46,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
             {
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Excel template",
+                    Description = "Template with Excel widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),
@@ -55,6 +56,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Tableau template",
+                    Description = "Template with Tableau widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),
@@ -64,6 +66,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
 
                 context.DocTemplates.Add(new DocTemplate(){
                     Name = "Excel and Tableau template",
+                    Description = "Template with Excel and Tableau widget",
                     Widgets = {
                         GetHeaderWidget(),
                         GetFooterWidget(),
@@ -72,6 +75,30 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
                         }
                     });
                     
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Documents.Any())
+            {
+                context.Documents.Add(new Document(){
+                    DocTemplateId = 1,
+                    Active = false,
+                    Parameters = {
+                        new DocumentParameter(){
+                            WidgetParameterId = 1,
+                            Value = "FY 2020 Report"
+                        },
+                        new DocumentParameter(){
+                            WidgetParameterId = 2,
+                            Value = "Some Footer Text"
+                        },
+                        new DocumentParameter(){
+                            WidgetParameterId = 3,
+                            Value = "File.xlsx"
+                        }
+                    }
+                });
+                
                 await context.SaveChangesAsync();
             }
         }
@@ -109,9 +136,7 @@ namespace  DKP.InvestmentReview.Infrastructure.Persistence
                             Name = "Excel",
                             Parameters = {
                                 new WidgetParameter { Name = "Filepath", Type = Domain.Enums.ParameterType.File, IsRequired = true},
-                                new WidgetParameter { Name = "Worksheet", Type = Domain.Enums.ParameterType.Text},
-                                new WidgetParameter { Name = "From Cell", Type = Domain.Enums.ParameterType.Text},
-                                new WidgetParameter { Name = "To Cell", Type = Domain.Enums.ParameterType.Text}
+                                new WidgetParameter { Name = "Named Range", Type = Domain.Enums.ParameterType.Text}
                             }
             };
         }

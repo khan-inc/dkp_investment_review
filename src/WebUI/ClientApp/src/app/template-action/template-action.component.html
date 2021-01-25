@@ -1,23 +1,14 @@
 <div class="parameter-section">
-  <!-- <div *ngFor="let input of inputPara">
-    <div class="form-group">
-      <label [for]='input.name'>{{input.title}}</label>
-      <input [type]='input.type'
-             class="form-control"
-             [name]='input.name'
-             [placeholder]='input.placeholder'
-             [(ngModel)]='input.value'>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary" (click)="onClickGenerate()">Generate</button> -->
   <div class='para-heading'>Parameters</div>
   <div *ngIf="widgetParams">
     <div *ngFor="let input of widgetParams">
       <label [for]='input.parameterName' class="para-lbl">{{input.name}}</label>
-      <input [type]='getControlType(input.type)'
+      <input #inputControl [type]='getControlType(input.type)'
              class="para-text"
              [name]='input.parameterName'
-             [(ngModel)]='input.parameterVal'>
+             [(ngModel)]='input.parameterVal'
+             (change)="fileAdded(input, inputControl.files)"
+             >
     </div>
   </div>
 </div>

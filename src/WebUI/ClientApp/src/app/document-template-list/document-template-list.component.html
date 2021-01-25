@@ -1,0 +1,26 @@
+<div>
+    <div><h5>Templates</h5></div>
+    <div>
+        <table class="doc-gen-table" *ngIf="docTemplates">
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="text-align:center;"></th>
+            </tr>
+            <tr>
+            <td colspan="4" style="height: 10px; background-color: white;opacity: 0;"></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let template of docTemplates">
+            <td style="text-align:left;">{{ template.name }}</td>
+            <td style="text-align:left;">{{ template.description }}</td>
+            <td style="text-align:center;">
+                <a [routerLink]="['/apptemplate']" [queryParams]="{id: template.id}">Create PPT</a>
+            </td>
+            </tr>
+        </tbody>
+        </table>  
+    </div>
+</div>

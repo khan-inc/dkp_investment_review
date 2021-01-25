@@ -234,3 +234,5 @@ _Pvt_Extensions
 .fake/
 /NDependOut
 /CleanArchitecture.ndproj
+src/.vscode/launch.json
+src/.vscode/tasks.json

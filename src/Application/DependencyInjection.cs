@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using DKP.InvestmentReview.Application.Common.Behaviours;
+using DKP.InvestmentReview.Application.Common.Interfaces;
+using DKP.InvestmentReview.Application.ExcelService;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ namespace DKP.InvestmentReview.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddTransient<IExcelToImageService, ExcelToImageService>();
 
             return services;
         }

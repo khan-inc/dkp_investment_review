@@ -7,6 +7,7 @@ namespace DKP.InvestmentReview.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public IList<WidgetTemplate> Widgets { get; set; } = new List<WidgetTemplate>();
     }
 }

@@ -1,6 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ActionService } from '../service/template.observable.service';
-import { Subscription } from 'rxjs';
 import { WidgetDTO } from '../web-api-client';
 
 @Component({
