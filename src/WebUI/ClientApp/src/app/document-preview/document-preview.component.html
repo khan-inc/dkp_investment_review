@@ -10,18 +10,20 @@
     </div>
     <div class="col-md-12">
       <div id="slideComponent" class="slideContainer">
-        <section class="slideHeader">    
-          <div class="header-text"> {{headerText}} </div>
-        </section>
-        <section class="slideBody">
-          <div *ngFor="let item of contentDivs" class="widget" >
-            <!-- <span class="widgetDefultText ">{{item.name}}</span> -->
-            <div [innerHTML]="item"></div>
-          </div>
-        </section>
-        <section class="slideFooter footer-text">
-          <div class="defaultHeader">{{footerText}}</div>
-        </section>
+        <div id="exportAsImage">
+          <section class="slideHeader">    
+            <div class="header-text"> {{headerText}} </div>
+          </section>
+          <section class="slideBody">
+            <div *ngFor="let item of contentDivs" class="widget" >
+              <!-- <span class="widgetDefultText ">{{item.name}}</span> -->
+              <div [innerHTML]="item"></div>
+            </div>
+          </section>
+          <section class="slideFooter">
+            <div class="footer-text">{{footerText}}</div>
+          </section>
+      </div>
       </div>
     </div>
  </div>
