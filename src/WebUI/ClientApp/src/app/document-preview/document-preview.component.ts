@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import pptxgen from "pptxgenjs";
 import { DocumentClient, DocumentParameterDTO, DocumentVM, WidgetDTO } from '../web-api-client';
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg } from 'html-to-image';
 
 @Component({
   selector: 'app-document-preview',
@@ -17,7 +20,7 @@ export class DocumentPreviewComponent implements OnInit {
   contentDivs: string[];
   documentParameters: DocumentParameterDTO[];
   templateId: number;
-  documentId: number
+  documentId: number;
 
   constructor(private documentClient : DocumentClient, private route: ActivatedRoute) { 
   }
@@ -34,8 +37,21 @@ export class DocumentPreviewComponent implements OnInit {
   }
 
   OnExport(){
+    var node = document.getElementById('exportAsImage');
+    htmlToImage.toPng(node)
+      .then(function (dataUrl) {
+        var pptx = new pptxgen();
+        let slide = pptx.addSlide();
+        slide.addImage({ path: dataUrl, x:0, y:0, h:5.61, w:10 });
+        pptx.writeFile("Geneated ppt from using tool.pptx");
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+      });
     console.log('On Export');
   }
+
+
 
   renderWidget(documentVM : DocumentVM){
     console.log(documentVM);

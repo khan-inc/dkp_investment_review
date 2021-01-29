@@ -29,7 +29,10 @@
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/pptxgenjs/dist/pptxgen.bundle.js",
+              "./node_modules/pptxgenjs/dist/pptxgen.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -153,5 +156,8 @@
       }
     }
   },
-  "defaultProject": "DKP.InvestmentReview.WebUI"
+  "defaultProject": "DKP.InvestmentReview.WebUI",
+  "cli": {
+    "analytics": false
+  }
 }

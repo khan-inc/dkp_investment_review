@@ -215,3 +215,17 @@ code {
 .table-header {
   font-size: 12px;
 }
+
+.header-text {
+  font: var(--unnamed-font-style-normal) normal bold 24px/33px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  font: normal normal bold 24px/33px Arial;
+  letter-spacing: 0px;
+}
+
+.footer-text {
+  font: var(--unnamed-font-style-normal) normal bold 24px/33px Arial;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  font: normal normal bold 24px/33px Arial;
+  letter-spacing: 0px;
+}
