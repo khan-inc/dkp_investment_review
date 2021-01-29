@@ -26,7 +26,6 @@ import { AlertModule } from 'ngx-bootstrap';
 // import { WidgetService } from './service/widget.service';
 import { DocumentPreviewComponent } from './document-preview/document-preview.component';
 import { DocumentTemplateListComponent } from './document-template-list/document-template-list.component';
-import { PptgenerateComponent } from './pptgenerate/pptgenerate.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,6 @@ import { PptgenerateComponent } from './pptgenerate/pptgenerate.component';
     DocumentPreviewComponent,
     DocumentTemplateListComponent,
     DocumentHistoryGridComponent,
-    PptgenerateComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
